@@ -1,2 +1,2 @@
 # be-dapoint
-Repository for dapoint app (backend)
+Repository for dapoint app API
