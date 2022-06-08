@@ -3,7 +3,6 @@ package modules
 import (
 	"dapoint-api/api"
 	contentV1Controller "dapoint-api/api/v1/content"
-	contentV2Controller "dapoint-api/api/v2/content"
 	contentService "dapoint-api/business/content"
 	"dapoint-api/config"
 	contentRepo "dapoint-api/repository/content"
@@ -19,14 +18,11 @@ func RegisterModules(dbCon *util.DatabaseConnection, config *config.AppConfig) a
 
 	contentV1PermitController := contentV1Controller.NewController(contentPermitService)
 
-	contentV2PermitController := contentV2Controller.NewController(contentPermitService)
-
 	authPermitService := authService.NewService(config)
 	authPermitController := authController.NewController(authPermitService)
 
 	controllers := api.Controller{
 		ContentV1Controller: contentV1PermitController,
-		ContentV2Controller: contentV2PermitController,
 		AuthController:      authPermitController,
 	}
 
