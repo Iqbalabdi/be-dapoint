@@ -9,3 +9,9 @@ Repository for dapoint app API
 5. fill username, password, name (database name) in `config.toml`
 6. move to `/app` folder in terminal
 7. run `go run main.go`
+
+## Reference
+This repository using clean architecture known as hexagonal architecture  
+
+Credits:  
+`https://github.com/hudabikhoir/poseidon.git`
