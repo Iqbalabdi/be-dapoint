@@ -1,0 +1,11 @@
+[app]
+port = 5011
+jwtkey = "my_screet_key"
+
+[database]
+driver = "mysql"
+address = "localhost"
+port = 3306
+username = ""
+password = ""
+name = "
