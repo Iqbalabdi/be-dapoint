@@ -2,6 +2,7 @@ package util
 
 import (
 	"dapoint-api/config"
+	"dapoint-api/entities"
 	"fmt"
 	// "fmt"
 
@@ -72,6 +73,12 @@ func newMysql(config *config.AppConfig) *gorm.DB {
 	if err != nil {
 		panic(err)
 	}
+
+	err = db.AutoMigrate(&entities.User{}, &entities.Transaction{}, &entities.Voucher{}, &entities.UserVoucher{})
+	if err != nil {
+		return nil
+	}
+
 	return db
 
 }
