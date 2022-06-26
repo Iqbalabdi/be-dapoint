@@ -2,7 +2,7 @@ package content
 
 import (
 	"dapoint-api/api/v1/content/request"
-	contentBusiness "dapoint-api/business/content"
+	contentBusiness "dapoint-api/service/content"
 	"fmt"
 	"net/http"
 

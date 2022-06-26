@@ -1,7 +1,7 @@
 package content
 
 import (
-	"dapoint-api/business/content/spec"
+	"dapoint-api/service/content/spec"
 	"fmt"
 
 	validator "github.com/go-playground/validator/v10"

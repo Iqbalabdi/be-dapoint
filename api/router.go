@@ -3,13 +3,14 @@ package api
 import (
 	auth "dapoint-api/api/v1/auth"
 	contentV1 "dapoint-api/api/v1/content"
+	"dapoint-api/api/v1/user"
 	"github.com/labstack/echo/v4"
 )
 
 type Controller struct {
 	ContentV1Controller *contentV1.Controller
-
-	AuthController *auth.Controller
+	UserController      *user.Controller
+	AuthController      *auth.Controller
 }
 
 func RegistrationPath(e *echo.Echo, controller Controller) {
@@ -20,4 +21,12 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 
 	auth := e.Group("/v1/auth")
 	auth.POST("", controller.AuthController.Auth)
+
+	user := e.Group("/users")
+	//user.GET("", func(c echo.Context) error {
+	//	return c.String(http.StatusOK, "hello user")
+	//})
+	user.GET("", controller.UserController.GetAll)
+	user.GET("/:id", controller.UserController.GetByID)
+	user.POST("", controller.UserController.Create)
 }
