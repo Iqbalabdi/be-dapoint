@@ -55,3 +55,19 @@ func (s service) Modify(data entities.User) (user entities.User, err error) {
 	//TODO implement me
 	panic("implement me")
 }
+
+func (s service) Login(data entities.UserLogin) (val bool, err error) {
+
+	if err = s.validate.Struct(data); err != nil {
+		return
+	}
+
+	res.Email = data.Email
+	res, err = u.userRepo.GetByQuery(res)
+
+	if err != nil || res.Password != data.Password {
+		return res, false, err
+	}
+
+	return res, true
+}

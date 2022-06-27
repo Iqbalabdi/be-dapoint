@@ -4,6 +4,11 @@ import (
 	"gorm.io/gorm"
 )
 
+type UserLogin struct {
+	Email    string `json:"email" form:"email" validate:"required,email"`
+	Password string `json:"password,omitempty" form:"password" validate:"required"`
+}
+
 type User struct {
 	gorm.Model
 	ID           uint64 `gorm:"primaryKey"`
@@ -38,4 +43,5 @@ type UserService interface {
 	GetAll() (users []User, err error)
 	Create(data User) (id uint64, err error)
 	Modify(data User) (user User, err error)
+	Login(data UserLogin) (ok bool, err error)
 }

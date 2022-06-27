@@ -31,7 +31,11 @@ func (repo MysqlRepository) FindAll() (users []entities.User, err error) {
 
 func (repo MysqlRepository) FindByQuery(key string, value interface{}) (user entities.User, err error) {
 	//TODO implement me
-	panic("implement me")
+	var userAuth entities.User
+	if err = repo.db.Where("email = ?", user.Email).First(&userAuth).Error; err != nil {
+		return
+	}
+	return userAuth, nil
 }
 
 func (repo MysqlRepository) Insert(data entities.User) (id uint64, err error) {
