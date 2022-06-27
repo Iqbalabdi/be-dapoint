@@ -25,7 +25,11 @@ func (s service) GetById(id uint64) (user entities.User, err error) {
 
 func (s service) GetAll() (users []entities.User, err error) {
 	//TODO implement me
-	panic("implement me")
+	users, err = s.repository.FindAll()
+	if err != nil {
+		return nil, err
+	}
+	return
 }
 
 func (s service) Create(data entities.User) (id uint64, err error) {

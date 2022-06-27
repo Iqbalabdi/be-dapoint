@@ -23,9 +23,6 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	auth.POST("", controller.AuthController.Auth)
 
 	user := e.Group("/users")
-	//user.GET("", func(c echo.Context) error {
-	//	return c.String(http.StatusOK, "hello user")
-	//})
 	user.GET("", controller.UserController.GetAll)
 	user.GET("/:id", controller.UserController.GetByID)
 	user.POST("", controller.UserController.Create)

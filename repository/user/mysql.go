@@ -23,7 +23,10 @@ func (repo MysqlRepository) FindById(id uint64) (user entities.User, err error) 
 
 func (repo MysqlRepository) FindAll() (users []entities.User, err error) {
 	//TODO implement me
-	panic("implement me")
+	if err = repo.db.Find(&users).Error; err != nil {
+		return nil, err
+	}
+	return users, nil
 }
 
 func (repo MysqlRepository) FindByQuery(key string, value interface{}) (user entities.User, err error) {
