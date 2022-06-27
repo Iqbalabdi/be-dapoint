@@ -1,6 +1,7 @@
 package api
 
 import (
+	"dapoint-api/api/middleware"
 	auth "dapoint-api/api/v1/auth"
 	contentV1 "dapoint-api/api/v1/content"
 	"dapoint-api/api/v1/user"
@@ -11,6 +12,7 @@ type Controller struct {
 	ContentV1Controller *contentV1.Controller
 	UserController      *user.Controller
 	AuthController      *auth.Controller
+	MiddlewareJwt       middleware.JWTService
 }
 
 func RegistrationPath(e *echo.Echo, controller Controller) {

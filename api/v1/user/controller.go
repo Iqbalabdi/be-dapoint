@@ -1,10 +1,10 @@
 package user
 
 import (
+	"dapoint-api/api/middleware"
 	"dapoint-api/api/response"
 	v1 "dapoint-api/api/v1"
 	"dapoint-api/entities"
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"
@@ -12,11 +12,13 @@ import (
 
 type Controller struct {
 	service entities.UserService
+	UJwt    middleware.JWTService
 }
 
-func NewController(service entities.UserService) *Controller {
+func NewController(service entities.UserService, jwt middleware.JWTService) *Controller {
 	return &Controller{
 		service: service,
+		UJwt:    jwt,
 	}
 
 }
@@ -63,8 +65,7 @@ func (controller *Controller) Create(c echo.Context) (err error) {
 
 	var newUser entities.User
 	err = c.Bind(&newUser)
-	fmt.Println("ini controller")
-	fmt.Println(newUser)
+
 	user, err := controller.service.Create(newUser)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.ApiResponse{
@@ -88,34 +89,32 @@ func (controller *Controller) Login(c echo.Context) (err error) {
 	var userLogin entities.UserLogin
 	//var data entities.User
 	err = c.Bind(&userLogin)
-	var val bool
+	var ok bool
 
-	val, err = controller.service.Login(userLogin)
+	data, ok, err := controller.service.Login(userLogin)
 	if err != nil {
 		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
 			Status:  "error",
 			Message: err.Error(),
 		})
 	}
+	if ok == false {
+		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
+			Status:  "Unauthorized",
+			Message: err.Error(),
+		})
+	}
+
+	token, err := controller.UJwt.GenerateToken(data)
+
+	if err != nil {
+		return c.JSON(v1.GetErrorStatus(err), response.ApiResponseSuccess{
+			Status: "error",
+			Data:   token,
+		})
+	}
 	return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
 		Status:  "success",
-		Message: val,
+		Message: token,
 	})
-	//if val == false {
-	//	//	return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
-	//	//		Status:  "Unauthorized",
-	//	//		Message: err.Error(),
-	//	//	})
-	//	//}
-	//token, e := u.UJwt.GenerateToken(data)
-	//if e != nil {
-	//	return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
-	//		Status:  "error",
-	//		Message: err.Error(),
-	//	})
-	//}
-	//return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
-	//	Status:  "success",
-	//	Message: token,
-	//})
 }

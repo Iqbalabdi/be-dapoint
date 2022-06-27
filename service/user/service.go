@@ -22,7 +22,8 @@ func (s service) GetById(id uint64) (user entities.User, err error) {
 	//TODO implement me
 	user, err = s.repository.FindById(id)
 	if err != nil {
-		return nil, err
+		err = dapoint_api.ErrBadRequest
+		return
 	}
 	return
 }
@@ -60,17 +61,17 @@ func (s service) Modify(data entities.User) (user entities.User, err error) {
 	panic("implement me")
 }
 
-func (s service) Login(data entities.UserLogin) (val bool, err error) {
+func (s service) Login(data entities.UserLogin) (res entities.User, val bool, err error) {
 
 	if err = s.validate.Struct(data); err != nil {
 		return
 	}
 
-	res, err := s.repository.FindByQuery("email", data.Email)
+	res, err = s.repository.FindByQuery("email", data.Email)
 
 	if err != nil || res.Password != data.Password {
-		return false, err
+		return res, false, err
 	}
 
-	return true, nil
+	return res, true, nil
 }

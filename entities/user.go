@@ -43,5 +43,5 @@ type UserService interface {
 	GetAll() (users []User, err error)
 	Create(data User) (id uint64, err error)
 	Modify(data User) (user User, err error)
-	Login(data UserLogin) (ok bool, err error)
+	Login(data UserLogin) (user User, ok bool, err error)
 }
