@@ -20,7 +20,11 @@ func NewService(repository entities.UserRepository) entities.UserService {
 
 func (s service) GetById(id uint64) (user entities.User, err error) {
 	//TODO implement me
-	panic("implement me")
+	user, err = s.repository.FindById(id)
+	if err != nil {
+		return nil, err
+	}
+	return
 }
 
 func (s service) GetAll() (users []entities.User, err error) {
@@ -62,12 +66,11 @@ func (s service) Login(data entities.UserLogin) (val bool, err error) {
 		return
 	}
 
-	res.Email = data.Email
-	res, err = u.userRepo.GetByQuery(res)
+	res, err := s.repository.FindByQuery("email", data.Email)
 
 	if err != nil || res.Password != data.Password {
-		return res, false, err
+		return false, err
 	}
 
-	return res, true
+	return true, nil
 }
