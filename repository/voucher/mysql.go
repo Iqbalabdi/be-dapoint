@@ -1,4 +1,4 @@
-package user
+package voucher
 
 import (
 	"dapoint-api/entities"
@@ -10,7 +10,7 @@ type MysqlRepository struct {
 	db *gorm.DB
 }
 
-func NewMysqlRepository(db *gorm.DB) entities.UserRepository {
+func NewMysqlRepository(db *gorm.DB) entities.VoucherRepository {
 	return &MysqlRepository{
 		db: db,
 	}

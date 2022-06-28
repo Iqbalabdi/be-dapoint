@@ -1,7 +1,6 @@
-package user
+package voucher
 
 import (
-	"dapoint-api/api/middleware"
 	"dapoint-api/api/response"
 	v1 "dapoint-api/api/v1"
 	"dapoint-api/entities"
@@ -11,20 +10,17 @@ import (
 )
 
 type Controller struct {
-	service entities.UserService
-	UJwt    middleware.JWTService
+	service entities.VoucherService
 }
 
-func NewController(service entities.UserService, jwt middleware.JWTService) *Controller {
+func NewController(service entities.VoucherService) *Controller {
 	return &Controller{
 		service: service,
-		UJwt:    jwt,
 	}
-
 }
 
 func (controller *Controller) GetAll(c echo.Context) error {
-	listUser, err := controller.service.GetAll()
+	listVoucher, err := controller.service.GetAll()
 	if err != nil {
 		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
 			Status:  "fail",
@@ -34,7 +30,7 @@ func (controller *Controller) GetAll(c echo.Context) error {
 
 	return c.JSON(v1.GetErrorStatus(err), response.ApiResponseSuccess{
 		Status: "success",
-		Data:   listUser,
+		Data:   listVoucher,
 	})
 }
 
@@ -47,7 +43,7 @@ func (controller *Controller) GetByID(c echo.Context) error {
 			Message: err.Error(),
 		})
 	}
-	user, err := controller.service.GetById(uint64(id))
+	voucher, err := controller.service.GetById(uint64(id))
 	if err != nil {
 		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
 			Status:  "fail",
@@ -57,16 +53,16 @@ func (controller *Controller) GetByID(c echo.Context) error {
 
 	return c.JSON(v1.GetErrorStatus(err), response.ApiResponseSuccess{
 		Status: "success",
-		Data:   user,
+		Data:   voucher,
 	})
 }
 
 func (controller *Controller) Create(c echo.Context) (err error) {
 
-	var newUser entities.User
-	err = c.Bind(&newUser)
+	var newVoucher entities.Voucher
+	err = c.Bind(&newVoucher)
 
-	user, err := controller.service.Create(newUser)
+	voucher, err := controller.service.Create(newVoucher)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.ApiResponse{
 			Status:  "error",
@@ -76,7 +72,7 @@ func (controller *Controller) Create(c echo.Context) (err error) {
 
 	return c.JSON(http.StatusOK, response.ApiResponseSuccess{
 		Status: "success",
-		Data:   user,
+		Data:   voucher,
 	})
 }
 
@@ -86,13 +82,13 @@ func (controller *Controller) Modify(c echo.Context) (err error) {
 	if params == "" {
 		return c.JSON(http.StatusNotFound, response.ApiResponse{
 			Status:  "fail",
-			Message: "put user id in endpoint",
+			Message: "put voucher id in endpoint",
 		})
 	}
 
 	userParamsId, _ := strconv.Atoi(params)
 
-	var data entities.User
+	var data entities.Voucher
 	err = c.Bind(&data)
 
 	res, err := controller.service.Modify(userParamsId, data)
@@ -104,7 +100,7 @@ func (controller *Controller) Modify(c echo.Context) (err error) {
 		})
 	}
 	return c.JSON(http.StatusOK, response.ApiResponse{
-		Status:  "success update user with id : " + strconv.Itoa(userParamsId),
+		Status:  "success update voucher with id : " + strconv.Itoa(userParamsId),
 		Message: res,
 	})
 
@@ -112,39 +108,4 @@ func (controller *Controller) Modify(c echo.Context) (err error) {
 
 func (controller *Controller) Delete(c echo.Context) (err error) {
 	panic("")
-}
-
-func (controller *Controller) Login(c echo.Context) (err error) {
-
-	var userLogin entities.UserLogin
-	//var data entities.User
-	err = c.Bind(&userLogin)
-	var ok bool
-
-	data, ok, err := controller.service.Login(userLogin)
-	if err != nil {
-		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
-			Status:  "error",
-			Message: err.Error(),
-		})
-	}
-	if ok == false {
-		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
-			Status:  "Unauthorized",
-			Message: err.Error(),
-		})
-	}
-
-	token, err := controller.UJwt.GenerateToken(data)
-
-	if err != nil {
-		return c.JSON(v1.GetErrorStatus(err), response.ApiResponseSuccess{
-			Status: "error",
-			Data:   token,
-		})
-	}
-	return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
-		Status:  "success",
-		Message: token,
-	})
 }

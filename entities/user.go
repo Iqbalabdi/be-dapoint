@@ -35,13 +35,13 @@ type UserRepository interface {
 	FindAll() (users []User, err error)
 	FindByQuery(key string, value interface{}) (user User, err error)
 	Insert(data User) (id uint64, err error)
-	Update(data User) (user User, err error)
+	Update(id int, data User) (user User, err error)
 }
 
 type UserService interface {
 	GetById(id uint64) (user User, err error)
 	GetAll() (users []User, err error)
 	Create(data User) (id uint64, err error)
-	Modify(data User) (user User, err error)
+	Modify(id int, data User) (user User, err error)
 	Login(data UserLogin) (user User, ok bool, err error)
 }
