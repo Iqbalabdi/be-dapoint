@@ -25,11 +25,11 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	auth.POST("", controller.AuthController.Auth)
 
 	user := e.Group("/users")
-	user.POST("/login", controller.UserController.Login) // login
-	user.GET("", controller.UserController.GetAll)       // get all users
-	user.POST("", controller.UserController.Create)      // register users
-	user.GET("/:id", controller.UserController.GetByID)  // get users by id
-	user.PUT("/:id", controller.UserController.Modify)   // update users
+	user.POST("/login", controller.UserController.Login)                                          // login
+	user.GET("", controller.UserController.GetAll, controller.MiddlewareJwt.AdminJwtMiddleware()) // get all users
+	user.POST("", controller.UserController.Create)                                               // register users
+	user.GET("/:id", controller.UserController.GetByID)                                           // get users by id
+	user.PUT("/:id", controller.UserController.Modify)                                            // update users
 	// TODO Delete users
 	user.DELETE("/:id", controller.UserController.Delete)
 	// TODO Create vouchers

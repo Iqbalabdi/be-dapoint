@@ -24,7 +24,7 @@ func (s service) GetById(id uint64) (user entities.User, err error) {
 	if err != nil {
 		return user, err
 	}
-	return user, nil
+	return
 }
 
 func (s service) GetAll() (users []entities.User, err error) {
@@ -60,7 +60,7 @@ func (s service) Modify(data entities.User) (user entities.User, err error) {
 	panic("implement me")
 }
 
-func (s service) Login(data entities.UserLogin) (val bool, err error) {
+func (s service) Login(data entities.UserLogin) (user entities.User, val bool, err error) {
 
 	if err = s.validate.Struct(data); err != nil {
 		return
@@ -69,8 +69,8 @@ func (s service) Login(data entities.UserLogin) (val bool, err error) {
 	res, err := s.repository.FindByQuery("email", data.Email)
 
 	if err != nil || res.Password != data.Password {
-		return false, err
+		return res, false, err
 	}
 
-	return true, nil
+	return res, true, nil
 }

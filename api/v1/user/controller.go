@@ -81,6 +81,10 @@ func (controller *Controller) Create(c echo.Context) (err error) {
 }
 
 func (controller *Controller) Modify(c echo.Context) (err error) {
+	//var userUpdate entities.UserLogin
+	//
+	//user, err := controller.service.Modify(uint64(id))
+	//if
 	panic("")
 }
 
