@@ -18,7 +18,11 @@ func NewMysqlRepository(db *gorm.DB) entities.UserRepository {
 
 func (repo MysqlRepository) FindById(id uint64) (user entities.User, err error) {
 	//TODO implement me
-	panic("implement me")
+	if err = repo.db.Find(&user, id).Error; err != nil {
+		return
+	}
+
+	return user, nil
 }
 
 func (repo MysqlRepository) FindAll() (users []entities.User, err error) {

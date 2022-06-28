@@ -84,6 +84,10 @@ func (controller *Controller) Modify(c echo.Context) (err error) {
 	panic("")
 }
 
+func (controller *Controller) Delete(c echo.Context) (err error) {
+	panic("")
+}
+
 func (controller *Controller) Login(c echo.Context) (err error) {
 
 	var userLogin entities.UserLogin
