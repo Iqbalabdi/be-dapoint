@@ -40,5 +40,15 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	voucher.POST("", controller.VoucherController.Create)
 	voucher.GET("", controller.VoucherController.GetAll)
 	// TODO Update Vouchers by id
+	voucher.PUT("", controller.VoucherController.Modify)
 	// TODO Delete vouchers
+
+	// TODO Create user transactions
+	//transaction := e.Group("/transaction")
+	// TODO GET All user transactions
+
+	// Admin
+	admin := e.Group("/admin")
+	// TODO Admin manage point customer
+	admin.PUT("/users/:id", )
 }
