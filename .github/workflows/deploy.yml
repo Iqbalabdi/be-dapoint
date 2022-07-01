@@ -1,12 +1,30 @@
-name: Deploy
-on: [push]
-jobs:
+ame: Build Go App
+on:
+  push:
+    branches:
+      - main
 
-  build:
-    name: Build
+jobs:
+  build-app:
     runs-on: ubuntu-latest
     steps:
-      - name: pull-test-deploy
+      - uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+
+      - name: Verify module
+        run: go mod verify
+
+      - name: Build go App
+        run: go build -v ./...
+
+      - name: Check go vet linting
+        run: go vet ./...
+
+      - name: Deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -16,5 +34,5 @@ jobs:
           script: |
             cd app
             git pull origin main
-#            go test -v ./..
-#            docker-compose down && docker-compose up --build -d
+            go mod verify
+            gidocker compose down && docker compose up --build -d
