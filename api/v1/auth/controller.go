@@ -2,7 +2,7 @@ package auth
 
 import (
 	"dapoint-api/api/v1/auth/request"
-	authService "dapoint-api/business/auth"
+	authService "dapoint-api/service/auth"
 	"net/http"
 
 	"github.com/go-playground/validator/v10"

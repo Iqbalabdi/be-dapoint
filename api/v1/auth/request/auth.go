@@ -1,6 +1,6 @@
 package request
 
-import "dapoint-api/business/auth/spec"
+import "dapoint-api/service/auth/spec"
 
 type AuthRequest struct {
 	Username string `json:"username"`

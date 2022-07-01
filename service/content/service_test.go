@@ -1,8 +1,8 @@
 package content_test
 
 import (
-	"dapoint-api/business/content"
-	"dapoint-api/business/content/spec"
+	"dapoint-api/service/content"
+	"dapoint-api/service/content/spec"
 	"errors"
 	"os"
 	"reflect"

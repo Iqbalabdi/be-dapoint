@@ -1,6 +1,6 @@
 package request
 
-import "dapoint-api/business/content/spec"
+import "dapoint-api/service/content/spec"
 
 type CreateContentRequest struct {
 	Name        string `json:"name"`

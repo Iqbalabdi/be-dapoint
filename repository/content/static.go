@@ -1,7 +1,7 @@
 package content
 
 import (
-	"dapoint-api/business/content"
+	"dapoint-api/service/content"
 )
 
 var ContentList = make(map[int]content.Content, 0)

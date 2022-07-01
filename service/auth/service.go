@@ -1,8 +1,8 @@
 package auth
 
 import (
-	"dapoint-api/business/auth/spec"
 	"dapoint-api/config"
+	"dapoint-api/service/auth/spec"
 	"errors"
 	"time"
 

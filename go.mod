@@ -13,7 +13,7 @@ require (
 	github.com/swaggo/swag v1.8.2
 	gorm.io/driver/mysql v1.3.4
 	gorm.io/driver/postgres v1.3.7
-	gorm.io/gorm v1.23.5
+	gorm.io/gorm v1.23.6
 )
 
 require (
