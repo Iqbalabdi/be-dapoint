@@ -148,3 +148,31 @@ func (controller *Controller) Login(c echo.Context) (err error) {
 		Message: token,
 	})
 }
+
+func (controller *Controller) PointModify(c echo.Context) (err error) {
+	var userPoint entities.User
+	//var data entities.User
+	err = c.Bind(&userPoint)
+	var ok bool
+
+	userParamsId, _ := strconv.Atoi(c.Param("id"))
+
+	ok, err = controller.service.PointModify(userParamsId, userPoint)
+	if err != nil {
+		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
+			Status:  "error",
+			Message: err.Error(),
+		})
+	}
+	if ok == false {
+		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
+			Status:  "Not Found",
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
+		Status:  "success",
+		Message: "Point Updated",
+	})
+}

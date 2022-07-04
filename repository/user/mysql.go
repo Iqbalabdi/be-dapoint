@@ -3,7 +3,6 @@ package user
 import (
 	"dapoint-api/entities"
 	dapoint_api "dapoint-api/error"
-	"fmt"
 	"gorm.io/gorm"
 )
 
@@ -61,10 +60,20 @@ func (repo MysqlRepository) Update(id int, data entities.User) (res entities.Use
 	//TODO implement me
 	var user entities.User
 	repo.db.First(&user, "id = ?", id)
-	fmt.Println(user)
 
 	if err = repo.db.Model(&user).Updates(map[string]interface{}{"name": data.Name, "email": data.Email, "password": data.Password, "photo": data.Photo}).Error; err != nil {
 		return user, err
 	}
 	return user, err
+}
+
+func (repo MysqlRepository) PointUpdate(id int, data entities.User) (ok bool, err error) {
+	//TODO implement me
+	var UserPoint entities.User
+	repo.db.First(&UserPoint, "id = ?", id)
+
+	if err = repo.db.Model(&UserPoint).Updates(map[string]interface{}{"total_point": data.TotalPoint}).Error; err != nil {
+		return true, err
+	}
+	return false, err
 }

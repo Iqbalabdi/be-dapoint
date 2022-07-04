@@ -50,5 +50,15 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	// Admin
 	admin := e.Group("/admin")
 	// TODO Admin manage point customer
-	admin.PUT("/users/:id", )
+	admin.PUT("/user_point/:id", controller.UserController.PointModify)
+	admin.PUT("/user/:id", controller.UserController.Modify)
+	admin.GET("/users", controller.UserController.GetAll)
+	admin.GET("/users/:id", controller.UserController.GetByID)
+	admin.DELETE("/users/:id", controller.UserController.Delete)
+	admin.GET("/vouchers", controller.VoucherController.GetAll)
+	admin.GET("/vouchers/:id", controller.VoucherController.GetByID)
+	admin.DELETE("/vouchers/:id", controller.VoucherController.Delete)
+
+	// TODO User Voucher
+	//uservoucher := e.Group("/user_voucher")
 }
