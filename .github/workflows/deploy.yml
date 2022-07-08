@@ -35,4 +35,3 @@ jobs:
             cd app
             git pull origin main
             go mod verify
-            gidocker compose down && docker compose up --build -d
