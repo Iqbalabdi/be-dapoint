@@ -5,9 +5,9 @@ import "gorm.io/gorm"
 type UserVoucher struct {
 	gorm.Model
 	ID        uint64 `gorm:"primaryKey"`
-	VoucherID string
-	UserID    string
-	Quantity  string
+	VoucherID int
+	UserID    int
+	Quantity  int
 }
 
 type UserVoucherRepository interface {
@@ -16,6 +16,7 @@ type UserVoucherRepository interface {
 	FindByQuery(key string, value interface{}) (res UserVoucher, err error)
 	Insert(data UserVoucher) (id uint64, err error)
 	Update(int, UserVoucher) (res UserVoucher, err error)
+	Redeem(id uint64) (res UserVoucher, err error)
 }
 
 type UserVoucherService interface {
@@ -23,4 +24,5 @@ type UserVoucherService interface {
 	GetAll() (vouchers []UserVoucher, err error)
 	Create(data UserVoucher) (id uint64, err error)
 	Modify(int, UserVoucher) (res UserVoucher, err error)
+	Redeem(id uint64) (res UserVoucher, err error)
 }

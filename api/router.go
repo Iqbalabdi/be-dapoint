@@ -5,16 +5,18 @@ import (
 	auth "dapoint-api/api/v1/auth"
 	contentV1 "dapoint-api/api/v1/content"
 	"dapoint-api/api/v1/user"
+	userVoucherController "dapoint-api/api/v1/user_voucher"
 	voucherController "dapoint-api/api/v1/voucher"
 	"github.com/labstack/echo/v4"
 )
 
 type Controller struct {
-	ContentV1Controller *contentV1.Controller
-	UserController      *user.Controller
-	AuthController      *auth.Controller
-	MiddlewareJwt       middleware.JWTService
-	VoucherController   *voucherController.Controller
+	ContentV1Controller   *contentV1.Controller
+	UserController        *user.Controller
+	AuthController        *auth.Controller
+	MiddlewareJwt         middleware.JWTService
+	VoucherController     *voucherController.Controller
+	UserVoucherController *userVoucherController.Controller
 }
 
 func RegistrationPath(e *echo.Echo, controller Controller) {
@@ -34,6 +36,7 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	user.PUT("/:id", controller.UserController.Modify)                                            // update users
 	// TODO Delete users
 	user.DELETE("/:id", controller.UserController.Delete)
+	user.POST("/user_voucher", controller.UserVoucherController.Redeem)
 
 	// TODO Create vouchers
 	voucher := e.Group("/vouchers")
@@ -61,4 +64,5 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 
 	// TODO User Voucher
 	//uservoucher := e.Group("/user_voucher")
+
 }

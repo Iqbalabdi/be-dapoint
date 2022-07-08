@@ -6,7 +6,6 @@ import (
 )
 
 type service struct {
-	x
 	repository entities.UserVoucherRepository
 	validate   *validator.Validate
 }
@@ -39,6 +38,11 @@ func (s service) Insert(data entities.UserVoucher) (id uint64, err error) {
 }
 
 func (s service) Update(i int, voucher entities.UserVoucher) (res entities.UserVoucher, err error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (s service) Redeem(id uint64) (res entities.UserVoucher, err error) {
 	//TODO implement me
 	panic("implement me")
 }

@@ -39,3 +39,8 @@ func (m MysqlRepository) Update(i int, voucher entities.UserVoucher) (res entiti
 	//TODO implement me
 	panic("implement me")
 }
+
+func (m MysqlRepository) Redeem(id uint64) (res entities.UserVoucher, err error) {
+	//TODO implement me
+	panic("implement me")
+}
