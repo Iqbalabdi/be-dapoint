@@ -1,4 +1,4 @@
-ame: Build Go App
+name: Build Go App
 on:
   push:
     branches:
