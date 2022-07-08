@@ -36,6 +36,7 @@ type UserRepository interface {
 	FindByQuery(key string, value interface{}) (user User, err error)
 	Insert(data User) (id uint64, err error)
 	Update(id int, data User) (user User, err error)
+	PointUpdate(id int, data User) (ok bool, err error)
 }
 
 type UserService interface {
@@ -44,4 +45,5 @@ type UserService interface {
 	Create(data User) (id uint64, err error)
 	Modify(id int, data User) (user User, err error)
 	Login(data UserLogin) (user User, ok bool, err error)
+	PointModify(id int, data User) (ok bool, err error)
 }

@@ -5,16 +5,18 @@ import (
 	auth "dapoint-api/api/v1/auth"
 	contentV1 "dapoint-api/api/v1/content"
 	"dapoint-api/api/v1/user"
+	userVoucherController "dapoint-api/api/v1/user_voucher"
 	voucherController "dapoint-api/api/v1/voucher"
 	"github.com/labstack/echo/v4"
 )
 
 type Controller struct {
-	ContentV1Controller *contentV1.Controller
-	UserController      *user.Controller
-	AuthController      *auth.Controller
-	MiddlewareJwt       middleware.JWTService
-	VoucherController   *voucherController.Controller
+	ContentV1Controller   *contentV1.Controller
+	UserController        *user.Controller
+	AuthController        *auth.Controller
+	MiddlewareJwt         middleware.JWTService
+	VoucherController     *voucherController.Controller
+	UserVoucherController *userVoucherController.Controller
 }
 
 func RegistrationPath(e *echo.Echo, controller Controller) {
@@ -27,13 +29,14 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	auth.POST("", controller.AuthController.Auth)
 
 	user := e.Group("/users")
-	user.POST("/login", controller.UserController.Login) // login
-	user.GET("", controller.UserController.GetAll)       // get all users
-	user.POST("", controller.UserController.Create)      // register users
-	user.GET("/:id", controller.UserController.GetByID)  // get users by id
-	user.PUT("/:id", controller.UserController.Modify)   // update users
+	user.POST("/login", controller.UserController.Login)                                          // login
+	user.GET("", controller.UserController.GetAll, controller.MiddlewareJwt.AdminJwtMiddleware()) // get all users
+	user.POST("", controller.UserController.Create)                                               // register users
+	user.GET("/:id", controller.UserController.GetByID)                                           // get users by id
+	user.PUT("/:id", controller.UserController.Modify)                                            // update users
 	// TODO Delete users
 	user.DELETE("/:id", controller.UserController.Delete)
+	user.POST("/user_voucher", controller.UserVoucherController.Redeem)
 
 	// TODO Create vouchers
 	voucher := e.Group("/vouchers")
@@ -48,7 +51,14 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	// TODO GET All user transactions
 
 	// Admin
-	//admin := e.Group("/admin")
-	//// TODO Admin manage point customer
-	admin.PUT("/users/:id")
+	admin := e.Group("/admin")
+	// TODO Admin manage point customer
+	admin.PUT("/user_point/:id", controller.UserController.PointModify)
+	admin.PUT("/user/:id", controller.UserController.Modify)
+	admin.GET("/users", controller.UserController.GetAll)
+	admin.GET("/users/:id", controller.UserController.GetByID)
+	admin.DELETE("/users/:id", controller.UserController.Delete)
+	admin.GET("/vouchers", controller.VoucherController.GetAll)
+	admin.GET("/vouchers/:id", controller.VoucherController.GetByID)
+	admin.DELETE("/vouchers/:id", controller.VoucherController.Delete)
 }

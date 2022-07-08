@@ -79,3 +79,13 @@ func (s service) Login(data entities.UserLogin) (user entities.User, val bool, e
 
 	return res, true, nil
 }
+
+func (s service) PointModify(id int, data entities.User) (ok bool, err error) {
+
+	res, err := s.repository.PointUpdate(id, data)
+	if err != nil {
+		return
+	}
+
+	return res, nil
+}
