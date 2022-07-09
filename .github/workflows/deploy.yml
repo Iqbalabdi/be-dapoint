@@ -34,4 +34,4 @@ jobs:
           script: |
             cd app
             git pull origin main
-            go mod verify
+            go mod tidy
