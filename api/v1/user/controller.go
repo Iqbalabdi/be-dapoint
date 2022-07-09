@@ -24,6 +24,17 @@ func NewController(service entities.UserService, jwt middleware.JWTService) *Con
 
 }
 
+// GetAll godoc
+// @Summary      Get all users
+// @Description  Retrieve list of all users
+// @Tags         accounts
+// @Accept       json
+// @Produce      json
+// @Success      200	{object}	response.ApiResponseSuccess
+// @Failure      404	{object}	response.ApiResponse
+// @Failure      403	{string}	string		"Unauthorized"
+// @Failure      500	{object}	response.ApiResponse
+// @Router       /users/getall [get]
 func (controller *Controller) GetAll(c echo.Context) error {
 	listUser, err := controller.service.GetAll()
 	if err != nil {
