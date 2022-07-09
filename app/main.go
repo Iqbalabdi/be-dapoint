@@ -34,7 +34,15 @@ func main() {
 	api.RegistrationPath(e, controllers)
 
 	go func() {
-		address := fmt.Sprintf("127.0.0.1:%d", config.App.Port)
+		var appAddress string
+		fmt.Println(config.App.Env)
+		if config.App.Env == "dev" {
+			appAddress = "127.0.0.1"
+		} else {
+			appAddress = "1.0.0.0"
+		}
+		fmt.Println(appAddress)
+		address := fmt.Sprintf("%s:%d", appAddress, config.App.Port)
 		if err := e.Start(address); err != nil {
 			log.Fatal(err)
 		}
