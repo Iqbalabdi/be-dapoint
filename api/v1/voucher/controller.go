@@ -109,3 +109,7 @@ func (controller *Controller) Modify(c echo.Context) (err error) {
 func (controller *Controller) Delete(c echo.Context) (err error) {
 	panic("")
 }
+
+func (controller *Controller) GetByParams(c echo.Context) (err error) {
+	panic("")
+}

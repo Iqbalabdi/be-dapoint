@@ -36,7 +36,7 @@ func (s service) GetAll() (users []entities.User, err error) {
 	return
 }
 
-func (s service) Create(data entities.User) (id uint64, err error) {
+func (s service) Create(data entities.User) (res entities.User, err error) {
 	//TODO implement me
 	err = s.validate.Struct(&data)
 	if err != nil {
@@ -48,11 +48,11 @@ func (s service) Create(data entities.User) (id uint64, err error) {
 	//	return res, err
 	//}
 	//newUser := entities.ObjUser(data.Name, data.Email, data.Password)
-	id, err = s.repository.Insert(data)
+	res, err = s.repository.Insert(data)
 	if err != nil {
-		return
+		return res, err
 	}
-	return
+	return res, nil
 }
 
 func (s service) Modify(id int, data entities.User) (user entities.User, err error) {

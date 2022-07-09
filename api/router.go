@@ -29,11 +29,11 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	auth.POST("", controller.AuthController.Auth)
 
 	user := e.Group("/users")
-	user.POST("/login", controller.UserController.Login)                                          // login
-	user.GET("", controller.UserController.GetAll, controller.MiddlewareJwt.AdminJwtMiddleware()) // get all users
-	user.POST("", controller.UserController.Create)                                               // register users
-	user.GET("/:id", controller.UserController.GetByID)                                           // get users by id
-	user.PUT("/:id", controller.UserController.Modify)                                            // update users
+	user.POST("/login", controller.UserController.Login)        // login
+	user.GET("/getall", controller.UserController.GetAll)       // get all users
+	user.POST("/create", controller.UserController.Create)      // register users
+	user.GET("/getbyid/:id", controller.UserController.GetByID) // get users by id
+	user.PUT("/update/:id", controller.UserController.Modify)   // update users
 	// TODO Delete users
 	user.DELETE("/:id", controller.UserController.Delete)
 	user.POST("/user_voucher", controller.UserVoucherController.Redeem)
@@ -44,6 +44,7 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	voucher.GET("", controller.VoucherController.GetAll)
 	// TODO Update Vouchers by id
 	voucher.PUT("", controller.VoucherController.Modify)
+	voucher.GET("/:tipe", controller.VoucherController.GetByParams)
 	// TODO Delete vouchers
 
 	// TODO Create user transactions

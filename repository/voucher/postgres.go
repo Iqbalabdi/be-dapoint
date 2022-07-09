@@ -6,17 +6,17 @@ import (
 	"gorm.io/gorm"
 )
 
-type MysqlRepository struct {
+type PostgresRepository struct {
 	db *gorm.DB
 }
 
 func NewPostgresRepository(db *gorm.DB) entities.VoucherRepository {
-	return &MysqlRepository{
+	return &PostgresRepository{
 		db: db,
 	}
 }
 
-func (repo MysqlRepository) FindById(id uint64) (voucher entities.Voucher, err error) {
+func (repo PostgresRepository) FindById(id uint64) (voucher entities.Voucher, err error) {
 	//TODO implement me
 	if err = repo.db.Find(&voucher, id).Error; err != nil {
 		return
@@ -25,7 +25,7 @@ func (repo MysqlRepository) FindById(id uint64) (voucher entities.Voucher, err e
 	return voucher, nil
 }
 
-func (repo MysqlRepository) FindAll() (vouchers []entities.Voucher, err error) {
+func (repo PostgresRepository) FindAll() (vouchers []entities.Voucher, err error) {
 	//TODO implement me
 	if err = repo.db.Find(&vouchers).Error; err != nil {
 		return nil, err
@@ -33,7 +33,7 @@ func (repo MysqlRepository) FindAll() (vouchers []entities.Voucher, err error) {
 	return vouchers, nil
 }
 
-func (repo MysqlRepository) FindByQuery(key string, value interface{}) (voucher entities.Voucher, err error) {
+func (repo PostgresRepository) FindByQuery(key string, value interface{}) (voucher entities.Voucher, err error) {
 	//TODO implement me
 
 	err = repo.db.Where(key+" = ?", value).Find(&voucher).Error
@@ -45,7 +45,7 @@ func (repo MysqlRepository) FindByQuery(key string, value interface{}) (voucher 
 	return voucher, nil
 }
 
-func (repo MysqlRepository) Insert(data entities.Voucher) (id uint64, err error) {
+func (repo PostgresRepository) Insert(data entities.Voucher) (id uint64, err error) {
 	//TODO implement me
 
 	err = repo.db.Create(&data).Error
@@ -56,7 +56,7 @@ func (repo MysqlRepository) Insert(data entities.Voucher) (id uint64, err error)
 	return
 }
 
-func (repo MysqlRepository) Update(id int, data entities.Voucher) (res entities.Voucher, err error) {
+func (repo PostgresRepository) Update(id int, data entities.Voucher) (res entities.Voucher, err error) {
 	//TODO implement me
 	var voucher entities.Voucher
 	repo.db.First(&voucher, "id = ?", id)
