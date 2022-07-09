@@ -6,17 +6,17 @@ import (
 	"gorm.io/gorm"
 )
 
-type MysqlRepository struct {
+type PostgresRepository struct {
 	db *gorm.DB
 }
 
 func NewPostgresRepository(db *gorm.DB) entities.UserRepository {
-	return &MysqlRepository{
+	return &PostgresRepository{
 		db: db,
 	}
 }
 
-func (repo MysqlRepository) FindById(id uint64) (user entities.User, err error) {
+func (repo PostgresRepository) FindById(id uint64) (user entities.User, err error) {
 	//TODO implement me
 	if err = repo.db.Find(&user, id).Error; err != nil {
 		return
@@ -25,7 +25,7 @@ func (repo MysqlRepository) FindById(id uint64) (user entities.User, err error) 
 	return user, nil
 }
 
-func (repo MysqlRepository) FindAll() (users []entities.User, err error) {
+func (repo PostgresRepository) FindAll() (users []entities.User, err error) {
 	//TODO implement me
 	if err = repo.db.Find(&users).Error; err != nil {
 		return nil, err
@@ -33,7 +33,7 @@ func (repo MysqlRepository) FindAll() (users []entities.User, err error) {
 	return users, nil
 }
 
-func (repo MysqlRepository) FindByQuery(key string, value interface{}) (user entities.User, err error) {
+func (repo PostgresRepository) FindByQuery(key string, value interface{}) (user entities.User, err error) {
 	//TODO implement me
 
 	err = repo.db.Where(key+" = ?", value).Find(&user).Error
@@ -45,20 +45,22 @@ func (repo MysqlRepository) FindByQuery(key string, value interface{}) (user ent
 	return user, nil
 }
 
-func (repo MysqlRepository) Insert(data entities.User) (id uint64, err error) {
+func (repo PostgresRepository) Insert(data entities.User) (res entities.User, err error) {
 	//TODO implement me
 
 	err = repo.db.Create(&data).Error
 	if err != nil {
 		err = dapoint_api.ErrInternalServer
-		return
+		return res, err
 	}
-	return
+
+	return data, nil
 }
 
-func (repo MysqlRepository) Update(id int, data entities.User) (res entities.User, err error) {
+func (repo PostgresRepository) Update(id int, data entities.User) (res entities.User, err error) {
 	//TODO implement me
 	var user entities.User
+
 	repo.db.First(&user, "id = ?", id)
 
 	if err = repo.db.Model(&user).Updates(map[string]interface{}{"name": data.Name, "email": data.Email, "password": data.Password, "photo": data.Photo}).Error; err != nil {
@@ -67,13 +69,14 @@ func (repo MysqlRepository) Update(id int, data entities.User) (res entities.Use
 	return user, err
 }
 
-func (repo MysqlRepository) PointUpdate(id int, data entities.User) (ok bool, err error) {
+func (repo PostgresRepository) PointUpdate(id int, data entities.User) (ok bool, err error) {
 	//TODO implement me
-	var UserPoint entities.User
-	repo.db.First(&UserPoint, "id = ?", id)
+	var userPoint entities.User
 
-	if err = repo.db.Model(&UserPoint).Updates(map[string]interface{}{"total_point": data.TotalPoint}).Error; err != nil {
-		return true, err
+	repo.db.First(&userPoint, "id = ?", id)
+
+	if err = repo.db.Model(&userPoint).Updates(map[string]interface{}{"total_point": data.TotalPoint}).Error; err != nil {
+		return false, err
 	}
-	return false, err
+	return true, err
 }

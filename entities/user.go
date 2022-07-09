@@ -17,7 +17,7 @@ type User struct {
 	Password     string `json:"password" form:"password"`
 	Photo        string
 	Role         string `gorm:"default:user"`
-	TotalPoint   int
+	TotalPoint   uint64 `json:"total_point" form:"total_point" gorm:"default:0"`
 	Transactions []Transaction
 	UserVouchers []UserVoucher
 }
@@ -34,7 +34,7 @@ type UserRepository interface {
 	FindById(id uint64) (user User, err error)
 	FindAll() (users []User, err error)
 	FindByQuery(key string, value interface{}) (user User, err error)
-	Insert(data User) (id uint64, err error)
+	Insert(data User) (res User, err error)
 	Update(id int, data User) (user User, err error)
 	PointUpdate(id int, data User) (ok bool, err error)
 }
@@ -42,7 +42,7 @@ type UserRepository interface {
 type UserService interface {
 	GetById(id uint64) (user User, err error)
 	GetAll() (users []User, err error)
-	Create(data User) (id uint64, err error)
+	Create(data User) (res User, err error)
 	Modify(id int, data User) (user User, err error)
 	Login(data UserLogin) (user User, ok bool, err error)
 	PointModify(id int, data User) (ok bool, err error)

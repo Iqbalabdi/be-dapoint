@@ -5,6 +5,7 @@ import (
 	"dapoint-api/api/response"
 	v1 "dapoint-api/api/v1"
 	"dapoint-api/entities"
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"
@@ -94,7 +95,7 @@ func (controller *Controller) Modify(c echo.Context) (err error) {
 
 	var data entities.User
 	err = c.Bind(&data)
-
+	fmt.Println(data.Email)
 	res, err := controller.service.Modify(userParamsId, data)
 
 	if err != nil {
@@ -150,14 +151,30 @@ func (controller *Controller) Login(c echo.Context) (err error) {
 }
 
 func (controller *Controller) PointModify(c echo.Context) (err error) {
-	var userPoint entities.User
-	//var data entities.User
-	err = c.Bind(&userPoint)
+	//var userPoint entities.User
+	////var data entities.User
+	//err = c.Bind(&userPoint)
+	//var ok bool
+	//
+	//userParamsId, _ := strconv.Atoi(c.Param("id"))
+	//fmt.Println(userPoint.TotalPoint)
 	var ok bool
 
-	userParamsId, _ := strconv.Atoi(c.Param("id"))
+	params := c.Param("id")
+	if params == "" {
+		return c.JSON(http.StatusNotFound, response.ApiResponse{
+			Status:  "fail",
+			Message: "put user id in endpoint",
+		})
+	}
 
-	ok, err = controller.service.PointModify(userParamsId, userPoint)
+	userParamsId, _ := strconv.Atoi(params)
+
+	var data entities.User
+	err = c.Bind(&data)
+	fmt.Println(data)
+
+	ok, err = controller.service.PointModify(userParamsId, data)
 	if err != nil {
 		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
 			Status:  "error",

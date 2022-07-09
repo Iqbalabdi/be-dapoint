@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"sync"
 
 	"github.com/labstack/gommon/log"
@@ -10,6 +11,7 @@ import (
 
 type AppConfig struct {
 	App struct {
+		Env    string `toml:"env"`
 		Port   int    `toml:"port"`
 		JWTKey string `toml:"jwtkey"`
 	} `toml:"app"`
@@ -53,6 +55,7 @@ func initConfig() *AppConfig {
 
 	var finalConfig AppConfig
 	err := viper.Unmarshal(&finalConfig)
+	fmt.Println(finalConfig)
 	if err != nil {
 		log.Info("error when parse config file", err)
 		return &defaultConfig
