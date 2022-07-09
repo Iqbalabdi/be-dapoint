@@ -10,7 +10,7 @@ type MysqlRepository struct {
 	db *gorm.DB
 }
 
-func NewMysqlRepository(db *gorm.DB) entities.UserRepository {
+func NewPostgresRepository(db *gorm.DB) entities.UserRepository {
 	return &MysqlRepository{
 		db: db,
 	}
