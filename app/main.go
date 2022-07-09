@@ -39,7 +39,7 @@ func main() {
 		if config.App.Env == "dev" {
 			appAddress = "127.0.0.1"
 		} else {
-			appAddress = "1.0.0.0"
+			appAddress = "0.0.0.0"
 		}
 		fmt.Println(appAddress)
 		address := fmt.Sprintf("%s:%d", appAddress, config.App.Port)
