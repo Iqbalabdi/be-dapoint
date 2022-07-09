@@ -31,7 +31,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          script:
+          script: |
             cd app
             git pull origin main
             go mod verify
