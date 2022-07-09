@@ -81,7 +81,7 @@ func newMysql(config *config.AppConfig) *gorm.DB {
 		panic(err)
 	}
 
-	err = db.AutoMigrate(&entities.User{}, &entities.Transaction{}, &entities.Voucher{}, &entities.UserVoucher{})
+	err = db.AutoMigrate(&entities.User{}, &entities.Transaction{}, &entities.VoucherDetail{}, &entities.Voucher{}, &entities.UserVoucher{})
 	if err != nil {
 		return nil
 	}

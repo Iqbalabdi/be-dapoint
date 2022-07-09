@@ -57,7 +57,7 @@ func (s service) Create(data entities.Voucher) (id uint64, err error) {
 
 func (s service) Modify(id int, data entities.Voucher) (user entities.Voucher, err error) {
 	//TODO implement me
-	res, err := s.repository.Update(id, user)
+	res, err := s.repository.Update(id, data)
 	if err != nil {
 		return
 	}

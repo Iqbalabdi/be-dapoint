@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 
+	_ "dapoint-api/docs"
 	"github.com/labstack/echo/v4"
 	echoSwagger "github.com/swaggo/echo-swagger"
 )
@@ -41,7 +42,6 @@ func main() {
 		} else {
 			appAddress = "0.0.0.0"
 		}
-		fmt.Println(appAddress)
 		address := fmt.Sprintf("%s:%d", appAddress, config.App.Port)
 		if err := e.Start(address); err != nil {
 			log.Fatal(err)

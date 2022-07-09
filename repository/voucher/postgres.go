@@ -3,6 +3,7 @@ package voucher
 import (
 	"dapoint-api/entities"
 	dapoint_api "dapoint-api/error"
+	"fmt"
 	"gorm.io/gorm"
 )
 
@@ -18,10 +19,9 @@ func NewPostgresRepository(db *gorm.DB) entities.VoucherRepository {
 
 func (repo PostgresRepository) FindById(id uint64) (voucher entities.Voucher, err error) {
 	//TODO implement me
-	if err = repo.db.Find(&voucher, id).Error; err != nil {
-		return
+	if err = repo.db.First(&voucher, id).Error; err != nil {
+		return voucher, err
 	}
-
 	return voucher, nil
 }
 
@@ -60,8 +60,9 @@ func (repo PostgresRepository) Update(id int, data entities.Voucher) (res entiti
 	//TODO implement me
 	var voucher entities.Voucher
 	repo.db.First(&voucher, "id = ?", id)
-
-	if err = repo.db.Model(&voucher).Updates(map[string]interface{}{"name": data.Name, "max_limit": data.MaxLimit}).Error; err != nil {
+	fmt.Println(data)
+	fmt.Println(voucher)
+	if err = repo.db.Model(&voucher).Updates(map[string]interface{}{"name": data.Name, "max_limit": data.MaxLimit, "harga_point": data.HargaPoint}).Error; err != nil {
 		return voucher, err
 	}
 	return voucher, err
