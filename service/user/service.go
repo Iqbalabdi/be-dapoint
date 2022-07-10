@@ -72,7 +72,6 @@ func (s service) Login(data entities.UserLogin) (user entities.User, val bool, e
 	}
 
 	res, err := s.repository.FindByQuery("email", data.Email)
-
 	if err != nil || res.Password != data.Password {
 		return res, false, err
 	}

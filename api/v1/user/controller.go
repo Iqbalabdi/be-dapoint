@@ -150,12 +150,11 @@ func (controller *Controller) Login(c echo.Context) (err error) {
 		})
 	}
 	if ok == false {
-		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
+		return c.JSON(http.StatusUnauthorized, response.ApiResponse{
 			Status:  "Unauthorized",
-			Message: err.Error(),
+			Message: "Email or Password is wrong",
 		})
 	}
-
 	token, err := controller.UJwt.GenerateToken(data)
 	if err != nil {
 		return c.JSON(v1.GetErrorStatus(err), response.ApiResponseSuccess{
