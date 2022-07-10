@@ -45,7 +45,7 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	// TODO Update Vouchers by id
 	voucher.PUT("/update/:id", controller.VoucherController.Modify)
 	voucher.GET("/getbyid/:id", controller.VoucherController.GetByID)
-	voucher.GET("/getbyparam/:tipe", controller.VoucherController.GetByParams)
+	voucher.GET("/getbytype/:tipe", controller.VoucherController.GetByParams)
 	// TODO Delete vouchers
 
 	// TODO Create user transactions

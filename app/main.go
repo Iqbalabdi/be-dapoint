@@ -30,7 +30,7 @@ func main() {
 	handleSwag := echoSwagger.WrapHandler
 	e.GET("/swagger/*", handleSwag)
 	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "hello world")
+		return c.String(http.StatusOK, "dapoint API")
 	})
 	api.RegistrationPath(e, controllers)
 
