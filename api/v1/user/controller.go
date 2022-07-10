@@ -30,7 +30,7 @@ func NewController(service entities.UserService, jwt middleware.JWTService) *Con
 // @Tags         accounts
 // @Accept       json
 // @Produce      json
-// @Success      200	{object}	response.ApiResponseSuccess
+// @Success      200	{object}	user.User
 // @Failure      404	{object}	response.ApiResponse
 // @Failure      403	{string}	string		"Unauthorized"
 // @Failure      500	{object}	response.ApiResponse
@@ -73,6 +73,16 @@ func (controller *Controller) GetByID(c echo.Context) error {
 	})
 }
 
+// Create godoc
+// @Summary      Create user
+// @Description  create user adn save to db
+// @Tags         accounts
+// @Accept       json
+// @Produce      json
+// @Success      200	{object}	response.ApiResponseSuccess
+// @Failure      404	{object}	response.ApiResponse
+// @Failure      500	{object}	response.ApiResponse
+// @Router       /akun/register [post]
 func (controller *Controller) Create(c echo.Context) (err error) {
 
 	var newUser entities.User

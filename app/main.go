@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"os"
 
-	_ "dapoint-api/docs"
+	//_ "dapoint-api/docs"
 	"github.com/labstack/echo/v4"
 	echoSwagger "github.com/swaggo/echo-swagger"
 )
