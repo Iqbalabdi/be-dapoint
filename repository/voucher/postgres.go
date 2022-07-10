@@ -3,7 +3,6 @@ package voucher
 import (
 	"dapoint-api/entities"
 	dapoint_api "dapoint-api/error"
-	"fmt"
 	"gorm.io/gorm"
 )
 
@@ -60,10 +59,16 @@ func (repo PostgresRepository) Update(id int, data entities.Voucher) (res entiti
 	//TODO implement me
 	var voucher entities.Voucher
 	repo.db.First(&voucher, "id = ?", id)
-	fmt.Println(data)
-	fmt.Println(voucher)
+
+	//repo.db.Raw("UPDATE vouchers SET "+key+" = ? "+"WHERE id = ?", value, id).Scan(&vouchers)
 	if err = repo.db.Model(&voucher).Updates(map[string]interface{}{"name": data.Name, "max_limit": data.MaxLimit, "harga_point": data.HargaPoint}).Error; err != nil {
 		return voucher, err
 	}
 	return voucher, err
+}
+
+func (repo PostgresRepository) FindByParam(value interface{}) (vouchers []entities.Voucher, err error) {
+
+	repo.db.Raw("SELECT * FROM vouchers v "+"INNER JOIN voucher_details vd ON v.voucher_detail_id = vd.id WHERE vd.name = ?", value).Scan(&vouchers)
+	return vouchers, nil
 }

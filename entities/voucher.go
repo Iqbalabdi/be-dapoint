@@ -18,6 +18,7 @@ type VoucherRepository interface {
 	FindByQuery(key string, value interface{}) (voucher Voucher, err error)
 	Insert(data Voucher) (id uint64, err error)
 	Update(id int, data Voucher) (voucher Voucher, err error)
+	FindByParam(value interface{}) (vouchers []Voucher, err error)
 }
 
 type VoucherService interface {
@@ -25,4 +26,5 @@ type VoucherService interface {
 	GetAll() (vouchers []Voucher, err error)
 	Create(data Voucher) (id uint64, err error)
 	Modify(id int, data Voucher) (voucher Voucher, err error)
+	GetByParam(value interface{}) (vouchers []Voucher, err error)
 }
