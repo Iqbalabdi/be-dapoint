@@ -142,7 +142,6 @@ func (controller *Controller) Login(c echo.Context) (err error) {
 	//var data entities.User
 	err = c.Bind(&userLogin)
 	var ok bool
-
 	data, ok, err := controller.service.Login(userLogin)
 	if err != nil {
 		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
@@ -158,7 +157,6 @@ func (controller *Controller) Login(c echo.Context) (err error) {
 	}
 
 	token, err := controller.UJwt.GenerateToken(data)
-
 	if err != nil {
 		return c.JSON(v1.GetErrorStatus(err), response.ApiResponseSuccess{
 			Status: "error",
