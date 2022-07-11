@@ -4,7 +4,6 @@ import (
 	"dapoint-api/api/response"
 	v1 "dapoint-api/api/v1"
 	"dapoint-api/entities"
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"
@@ -91,7 +90,7 @@ func (controller *Controller) Modify(c echo.Context) (err error) {
 
 	var data entities.Voucher
 	err = c.Bind(&data)
-	fmt.Println(data.MaxLimit)
+
 	res, err := controller.service.Modify(userParamsId, data)
 
 	if err != nil {
