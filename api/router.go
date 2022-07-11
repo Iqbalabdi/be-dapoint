@@ -4,6 +4,7 @@ import (
 	"dapoint-api/api/middleware"
 	auth "dapoint-api/api/v1/auth"
 	contentV1 "dapoint-api/api/v1/content"
+	transactionController "dapoint-api/api/v1/transaction"
 	"dapoint-api/api/v1/user"
 	userVoucherController "dapoint-api/api/v1/user_voucher"
 	voucherController "dapoint-api/api/v1/voucher"
@@ -17,6 +18,7 @@ type Controller struct {
 	MiddlewareJwt         middleware.JWTService
 	VoucherController     *voucherController.Controller
 	UserVoucherController *userVoucherController.Controller
+	TransactionController *transactionController.Controller
 }
 
 func RegistrationPath(e *echo.Echo, controller Controller) {
@@ -64,4 +66,7 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	admin.GET("/vouchers", controller.VoucherController.GetAll)
 	admin.GET("/vouchers/:id", controller.VoucherController.GetByID)
 	admin.DELETE("/vouchers/:id", controller.VoucherController.Delete)
+	// transaction
+	admin.POST("/user_transaction/:userid/create", controller.TransactionController.Create)
+
 }
