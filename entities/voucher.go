@@ -6,7 +6,7 @@ type Voucher struct {
 	gorm.Model
 	ID              uint64 `gorm:"primaryKey"`
 	Name            string `json:"name" form:"name"`
-	MaxLimit        uint   `json:"max_limit" form:"max_limit"`
+	Stock           uint   `json:"stock" form:"stock"`
 	HargaPoint      uint   `json:"harga_point" form:"harga_point"`
 	VoucherDetailID uint   `json:"voucher_detail_id" form:"voucher_detail_id"`
 	UserVouchers    []UserVoucher

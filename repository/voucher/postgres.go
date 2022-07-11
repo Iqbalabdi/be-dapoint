@@ -61,7 +61,7 @@ func (repo PostgresRepository) Update(id int, data entities.Voucher) (res entiti
 	repo.db.First(&voucher, "id = ?", id)
 
 	//repo.db.Raw("UPDATE vouchers SET "+key+" = ? "+"WHERE id = ?", value, id).Scan(&vouchers)
-	if err = repo.db.Model(&voucher).Updates(map[string]interface{}{"name": data.Name, "max_limit": data.MaxLimit, "harga_point": data.HargaPoint}).Error; err != nil {
+	if err = repo.db.Model(&voucher).Updates(map[string]interface{}{"name": data.Name, "stock": data.Stock, "harga_point": data.HargaPoint}).Error; err != nil {
 		return voucher, err
 	}
 	return voucher, err
