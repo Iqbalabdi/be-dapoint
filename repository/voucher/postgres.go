@@ -52,7 +52,7 @@ func (repo PostgresRepository) Insert(data entities.Voucher) (id uint64, err err
 		err = dapoint_api.ErrInternalServer
 		return
 	}
-	return
+	return data.ID, nil
 }
 
 func (repo PostgresRepository) Update(id int, data entities.Voucher) (res entities.Voucher, err error) {
