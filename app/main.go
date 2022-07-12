@@ -28,7 +28,13 @@ func main() {
 	controllers := modules.RegisterModules(dbCon, config)
 
 	e := echo.New()
-	e.Use(middleware.CORS())
+	//e.Use(middleware.CORS())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{echo.GET, echo.POST, echo.PUT, echo.DELETE},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization, echo.HeaderAccessControlAllowOrigin},
+	}))
+
 	handleSwag := echoSwagger.WrapHandler
 	e.GET("/swagger/*", handleSwag)
 	e.GET("/", func(c echo.Context) error {
