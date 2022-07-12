@@ -59,18 +59,18 @@ func (controller *Controller) GetByID(c echo.Context) error {
 
 func (controller *Controller) Create(c echo.Context) (err error) {
 
-	userId, _ := strconv.Atoi(c.Param("userid"))
+	//userId, _ := strconv.Atoi(c.Param("userid"))
+
 	var newTransaction entities.Transaction
 	err = c.Bind(&newTransaction)
 
-	res, err := controller.service.Create(userId, newTransaction)
+	res, err := controller.service.Create(newTransaction)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.ApiResponse{
 			Status:  "error",
 			Message: err.Error(),
 		})
 	}
-
 	return c.JSON(http.StatusOK, response.ApiResponseSuccess{
 		Status: "success",
 		Data:   res,

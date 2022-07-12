@@ -19,6 +19,10 @@ import (
 	voucherRepo "dapoint-api/repository/voucher"
 	voucherService "dapoint-api/service/voucher"
 
+	transactionController "dapoint-api/api/v1/transaction"
+	transactionRepo "dapoint-api/repository/transaction"
+	transactionService "dapoint-api/service/transaction"
+
 	"dapoint-api/util"
 )
 
@@ -43,12 +47,18 @@ func RegisterModules(dbCon *util.DatabaseConnection, config *config.AppConfig) a
 	voucherPermitService := voucherService.NewService(voucherPermitRepository)
 	voucherPermitController := voucherController.NewController(voucherPermitService)
 
+	//transaction
+	transactionPermitRepository := transactionRepo.RepositoryFactory(dbCon)
+	transactionPermitService := transactionService.NewService(transactionPermitRepository, userPermitRepository)
+	transactionPermitController := transactionController.NewController(transactionPermitService)
+
 	controllers := api.Controller{
-		ContentV1Controller: contentV1PermitController,
-		AuthController:      authPermitController,
-		UserController:      userPermitController,
-		MiddlewareJwt:       middlewarePermitJwt,
-		VoucherController:   voucherPermitController,
+		ContentV1Controller:   contentV1PermitController,
+		AuthController:        authPermitController,
+		UserController:        userPermitController,
+		MiddlewareJwt:         middlewarePermitJwt,
+		VoucherController:     voucherPermitController,
+		TransactionController: transactionPermitController,
 	}
 
 	return controllers

@@ -72,7 +72,6 @@ func (repo PostgresRepository) Update(id int, data entities.User) (res entities.
 func (repo PostgresRepository) PointUpdate(id int, data entities.User) (ok bool, err error) {
 	//TODO implement me
 	var userPoint entities.User
-
 	repo.db.First(&userPoint, "id = ?", id)
 
 	if err = repo.db.Model(&userPoint).Updates(map[string]interface{}{"total_point": data.TotalPoint}).Error; err != nil {

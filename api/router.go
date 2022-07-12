@@ -67,6 +67,7 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	admin.GET("/vouchers/:id", controller.VoucherController.GetByID)
 	admin.DELETE("/vouchers/:id", controller.VoucherController.Delete)
 	// transaction
-	admin.POST("/user_transaction/:userid/create", controller.TransactionController.Create)
+	admin.POST("/user_transaction/create", controller.TransactionController.Create)
+	admin.GET("/user_transaction/getall", controller.TransactionController.GetAll)
 
 }
