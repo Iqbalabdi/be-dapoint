@@ -39,6 +39,7 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	// TODO Delete users
 	user.DELETE("/:id", controller.UserController.Delete)
 	user.POST("/user_voucher", controller.UserVoucherController.Redeem)
+	user.GET("/user_transaction/:userid", controller.TransactionController.GetByUserID)
 
 	// TODO Create vouchers
 	voucher := e.Group("/vouchers")
@@ -69,5 +70,5 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	// transaction
 	admin.POST("/user_transaction/create", controller.TransactionController.Create)
 	admin.GET("/user_transaction/getall", controller.TransactionController.GetAll)
-
+	admin.GET("/user_transaction/getbyuserid/:userid", controller.TransactionController.GetByUserID)
 }

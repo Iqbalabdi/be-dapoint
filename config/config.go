@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"sync"
 
 	"github.com/labstack/gommon/log"
@@ -55,7 +54,7 @@ func initConfig() *AppConfig {
 
 	var finalConfig AppConfig
 	err := viper.Unmarshal(&finalConfig)
-	fmt.Println(finalConfig)
+
 	if err != nil {
 		log.Info("error when parse config file", err)
 		return &defaultConfig
