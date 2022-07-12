@@ -6,6 +6,7 @@ import (
 	"dapoint-api/config"
 	"dapoint-api/util"
 	"fmt"
+	"github.com/labstack/echo/v4/middleware"
 	"log"
 	"net/http"
 	"os"
@@ -27,6 +28,7 @@ func main() {
 	controllers := modules.RegisterModules(dbCon, config)
 
 	e := echo.New()
+	e.Use(middleware.CORS())
 	handleSwag := echoSwagger.WrapHandler
 	e.GET("/swagger/*", handleSwag)
 	e.GET("/", func(c echo.Context) error {
