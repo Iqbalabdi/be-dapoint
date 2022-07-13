@@ -44,15 +44,19 @@ func (repo PostgresRepository) FindByQuery(key string, value interface{}) (vouch
 	return voucher, nil
 }
 
-func (repo PostgresRepository) Insert(data entities.Voucher) (id uint64, err error) {
+func (repo PostgresRepository) Insert(data entities.VoucherDTO) (id uint64, err error) {
 	//TODO implement me
+	//var voucherDetail entities.VoucherDetail
+	//var newVoucher entities.Voucher
+	voucherDetail := entities.ObjVoucher(data.Name, data.Stock, data.HargaPoint)
+	repo.db.Raw("SELECT v.voucher_detail_id FROM voucher_details vd RIGHT JOIN vouchers v ON vd.id = v.voucher_detail_id WHERE vd.name = ?", data.TipeVoucher).Scan(&voucherDetail)
 
-	err = repo.db.Create(&data).Error
+	err = repo.db.Create(&voucherDetail).Error
 	if err != nil {
 		err = dapoint_api.ErrInternalServer
 		return
 	}
-	return data.ID, nil
+	return voucherDetail.ID, nil
 }
 
 func (repo PostgresRepository) Update(id int, data entities.Voucher) (res entities.Voucher, err error) {
