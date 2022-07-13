@@ -27,11 +27,11 @@ func (s service) GetById(id uint64) (user entities.Voucher, err error) {
 	return
 }
 
-func (s service) GetAll() (users []entities.Voucher, err error) {
+func (s service) GetAll() (total int, users []entities.Voucher, err error) {
 	//TODO implement me
-	users, err = s.repository.FindAll()
+	total, users, err = s.repository.FindAll()
 	if err != nil {
-		return nil, err
+		return total, nil, err
 	}
 	return
 }
@@ -68,6 +68,16 @@ func (s service) Modify(id int, data entities.Voucher) (user entities.Voucher, e
 func (s service) GetByParam(value interface{}) (vouchers []entities.Voucher, err error) {
 	//TODO implement me
 	res, err := s.repository.FindByParam(value)
+	if err != nil {
+		return
+	}
+
+	return res, nil
+}
+
+func (s service) GetTotal() (res interface{}, err error) {
+	//TODO implement me
+	res, err = s.repository.GetTotal()
 	if err != nil {
 		return
 	}

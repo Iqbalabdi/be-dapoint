@@ -32,18 +32,20 @@ func ObjUser(dataName string, dataEmail, dataPassword string) (user *User) {
 
 type UserRepository interface {
 	FindById(id uint64) (user User, err error)
-	FindAll() (users []User, err error)
+	FindAll() (total int, users []User, err error)
 	FindByQuery(key string, value interface{}) (user User, err error)
 	Insert(data User) (res User, err error)
 	Update(id int, data User) (user User, err error)
 	PointUpdate(id int, data User) (ok bool, err error)
+	GetTotal() (res interface{}, err error)
 }
 
 type UserService interface {
 	GetById(id uint64) (user User, err error)
-	GetAll() (users []User, err error)
+	GetAll() (total int, users []User, err error)
 	Create(data User) (res User, err error)
 	Modify(id int, data User) (user User, err error)
 	Login(data UserLogin) (user User, ok bool, err error)
 	PointModify(id int, data User) (ok bool, err error)
+	GetTotal() (res interface{}, err error)
 }

@@ -24,12 +24,16 @@ func (repo PostgresRepository) FindById(id uint64) (voucher entities.Voucher, er
 	return voucher, nil
 }
 
-func (repo PostgresRepository) FindAll() (vouchers []entities.Voucher, err error) {
+func (repo PostgresRepository) FindAll() (total int, vouchers []entities.Voucher, err error) {
 	//TODO implement me
-	if err = repo.db.Find(&vouchers).Error; err != nil {
-		return nil, err
+	if err = repo.db.Raw("SELECT COUNT(*) FROM users").Scan(&total).Error; err != nil {
+		return total, nil, err
 	}
-	return vouchers, nil
+
+	if err = repo.db.Find(&vouchers).Error; err != nil {
+		return total, nil, err
+	}
+	return total, vouchers, nil
 }
 
 func (repo PostgresRepository) FindByQuery(key string, value interface{}) (voucher entities.Voucher, err error) {
@@ -75,4 +79,14 @@ func (repo PostgresRepository) FindByParam(value interface{}) (vouchers []entiti
 
 	repo.db.Raw("SELECT * FROM vouchers v "+"INNER JOIN voucher_details vd ON v.voucher_detail_id = vd.id WHERE vd.name = ?", value).Scan(&vouchers)
 	return vouchers, nil
+}
+
+func (repo PostgresRepository) GetTotal() (res interface{}, err error) {
+	//TODO implement me
+	var total uint
+	if err = repo.db.Raw("SELECT COUNT(*) FROM users").Scan(&total).Error; err != nil {
+		return nil, err
+	}
+
+	return total, nil
 }

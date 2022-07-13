@@ -25,12 +25,16 @@ func (repo PostgresRepository) FindById(id uint64) (user entities.User, err erro
 	return user, nil
 }
 
-func (repo PostgresRepository) FindAll() (users []entities.User, err error) {
+func (repo PostgresRepository) FindAll() (total int, users []entities.User, err error) {
 	//TODO implement me
-	if err = repo.db.Find(&users).Error; err != nil {
-		return nil, err
+	if err = repo.db.Raw("SELECT COUNT(*) FROM users").Scan(&total).Error; err != nil {
+		return total, nil, err
 	}
-	return users, nil
+
+	if err = repo.db.Find(&users).Error; err != nil {
+		return total, nil, err
+	}
+	return total, users, nil
 }
 
 func (repo PostgresRepository) FindByQuery(key string, value interface{}) (user entities.User, err error) {
@@ -78,4 +82,14 @@ func (repo PostgresRepository) PointUpdate(id int, data entities.User) (ok bool,
 		return false, err
 	}
 	return true, err
+}
+
+func (repo PostgresRepository) GetTotal() (res interface{}, err error) {
+	//TODO implement me
+	var total uint
+	if err = repo.db.Raw("SELECT COUNT(*) FROM users").Scan(&total).Error; err != nil {
+		return nil, err
+	}
+
+	return total, nil
 }

@@ -27,13 +27,13 @@ func (s service) GetById(id uint64) (user entities.User, err error) {
 	return
 }
 
-func (s service) GetAll() (users []entities.User, err error) {
+func (s service) GetAll() (total int, users []entities.User, err error) {
 	//TODO implement me
-	users, err = s.repository.FindAll()
+	total, users, err = s.repository.FindAll()
 	if err != nil {
-		return nil, err
+		return total, nil, err
 	}
-	return
+	return total, users, nil
 }
 
 func (s service) Create(data entities.User) (res entities.User, err error) {
@@ -82,6 +82,16 @@ func (s service) Login(data entities.UserLogin) (user entities.User, val bool, e
 func (s service) PointModify(id int, data entities.User) (ok bool, err error) {
 
 	res, err := s.repository.PointUpdate(id, data)
+	if err != nil {
+		return
+	}
+
+	return res, nil
+}
+
+func (s service) GetTotal() (res interface{}, err error) {
+	//TODO implement me
+	res, err = s.repository.GetTotal()
 	if err != nil {
 		return
 	}

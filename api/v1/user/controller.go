@@ -35,7 +35,7 @@ func NewController(service entities.UserService, jwt middleware.JWTService) *Con
 // @Failure      500	{object}	response.ApiResponse
 // @Router       /users/getall [get]
 func (controller *Controller) GetAll(c echo.Context) error {
-	listUser, err := controller.service.GetAll()
+	total, listUser, err := controller.service.GetAll()
 	if err != nil {
 		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
 			Status:  "fail",
@@ -45,6 +45,7 @@ func (controller *Controller) GetAll(c echo.Context) error {
 
 	return c.JSON(v1.GetErrorStatus(err), response.ApiResponseSuccess{
 		Status: "success",
+		Count:  total,
 		Data:   listUser,
 	})
 }
@@ -206,5 +207,20 @@ func (controller *Controller) PointModify(c echo.Context) (err error) {
 	return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
 		Status:  "success",
 		Message: "Point Updated",
+	})
+}
+
+func (controller *Controller) GetTotal(c echo.Context) (err error) {
+	totalUser, err := controller.service.GetTotal()
+	if err != nil {
+		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
+			Status:  "fail",
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(v1.GetErrorStatus(err), response.ApiResponseSuccess{
+		Status: "success",
+		Data:   totalUser,
 	})
 }
