@@ -111,22 +111,22 @@ func (controller *Controller) Delete(c echo.Context) (err error) {
 	panic("")
 }
 
-func (controller *Controller) GetByParams(c echo.Context) (err error) {
-
-	param := c.Param("tipe")
-	listTransaction, err := controller.service.GetByParam(param)
-	if err != nil {
-		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
-			Status:  "fail",
-			Message: err.Error(),
-		})
-	}
-
-	return c.JSON(v1.GetErrorStatus(err), response.ApiResponseSuccess{
-		Status: "success",
-		Data:   listTransaction,
-	})
-}
+//func (controller *Controller) GetByParams(c echo.Context) (err error) {
+//
+//	param := c.Param("tipe")
+//	listTransaction, err := controller.service.GetByParam(param)
+//	if err != nil {
+//		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
+//			Status:  "fail",
+//			Message: err.Error(),
+//		})
+//	}
+//
+//	return c.JSON(v1.GetErrorStatus(err), response.ApiResponseSuccess{
+//		Status: "success",
+//		Data:   listTransaction,
+//	})
+//}
 
 func (controller *Controller) GetByUserID(c echo.Context) (err error) {
 	params := c.Param("userid")
@@ -149,5 +149,20 @@ func (controller *Controller) GetByUserID(c echo.Context) (err error) {
 	return c.JSON(v1.GetErrorStatus(err), response.ApiResponseSuccess{
 		Status: "success",
 		Data:   res,
+	})
+}
+
+func (controller *Controller) GetAllUserPoint(c echo.Context) (err error) {
+	usersPoint, err := controller.service.GetByAny("point_earn")
+	if err != nil {
+		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
+			Status:  "fail",
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(v1.GetErrorStatus(err), response.ApiResponseSuccess{
+		Status: "success",
+		Data:   usersPoint,
 	})
 }

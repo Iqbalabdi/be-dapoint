@@ -79,7 +79,7 @@ func (s service) Modify(id int, data entities.Transaction) (transaction entities
 	panic("implement me")
 }
 
-func (s service) GetByParam(value interface{}) (transactions []entities.Transaction, err error) {
+func (s service) GetByAny(value interface{}) (res interface{}, err error) {
 	//TODO implement me
 	panic("implement me")
 }
