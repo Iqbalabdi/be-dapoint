@@ -24,7 +24,7 @@ type TransactionRepository interface {
 	FindByQuery(key string, value interface{}) (transaction Transaction, err error)
 	Insert(Transaction) (transaction Transaction, err error)
 	Update(id int, data Transaction) (transaction Transaction, err error)
-	FindByParam(value interface{}) (transactions []Transaction, err error)
+	FindByAny(value interface{}) (res interface{}, err error)
 }
 
 type TransactionService interface {
@@ -33,5 +33,5 @@ type TransactionService interface {
 	GetByQuery(key string, value interface{}) (transaction Transaction, err error)
 	Create(Transaction) (transaction Transaction, err error)
 	Modify(id int, data Transaction) (transaction Transaction, err error)
-	GetByParam(value interface{}) (transactions []Transaction, err error)
+	GetByAny(value interface{}) (res interface{}, err error)
 }

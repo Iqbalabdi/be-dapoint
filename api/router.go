@@ -66,10 +66,12 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	admin.DELETE("/user/:id", controller.UserController.Delete)
 	admin.GET("/voucher/getall", controller.VoucherController.GetAll)
 	admin.GET("/voucher/:id", controller.VoucherController.GetByID)
+	admin.PUT("/voucher/:id", controller.VoucherController.Modify)
 	admin.POST("/voucher/create", controller.VoucherController.Create)
 	admin.DELETE("/voucher/:id", controller.VoucherController.Delete)
 	// transaction
 	admin.POST("/user_transaction/create", controller.TransactionController.Create)
 	admin.GET("/user_transaction/getall", controller.TransactionController.GetAll)
 	admin.GET("/user_transaction/getbyuserid/:userid", controller.TransactionController.GetByUserID)
+	admin.GET("/user_transaction/getalluserpoint", controller.TransactionController.GetAllUserPoint)
 }

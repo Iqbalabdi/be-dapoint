@@ -62,7 +62,12 @@ func (p PostgresRepository) Update(id int, data entities.Transaction) (transacti
 	panic("implement me")
 }
 
-func (p PostgresRepository) FindByParam(value interface{}) (transactions []entities.Transaction, err error) {
+func (p PostgresRepository) FindByAny(value interface{}) (res interface{}, err error) {
 	//TODO implement me
-	panic("implement me")
+	panic("")
+}
+
+func (p PostgresRepository) GetAllUserPoint(value interface{}) (res interface{}, err error) {
+	//TODO implement me
+	panic("")
 }
