@@ -20,7 +20,7 @@ func NewController(service entities.VoucherService) *Controller {
 }
 
 func (controller *Controller) GetAll(c echo.Context) error {
-	listVoucher, err := controller.service.GetAll()
+	total, listVoucher, err := controller.service.GetAll()
 	if err != nil {
 		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
 			Status:  "fail",
@@ -30,6 +30,7 @@ func (controller *Controller) GetAll(c echo.Context) error {
 
 	return c.JSON(v1.GetErrorStatus(err), response.ApiResponseSuccess{
 		Status: "success",
+		Count:  total,
 		Data:   listVoucher,
 	})
 }

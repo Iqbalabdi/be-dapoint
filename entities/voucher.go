@@ -31,17 +31,19 @@ func ObjVoucher(dataName string, dataStock uint, dataHargaPoint uint) (voucher *
 
 type VoucherRepository interface {
 	FindById(id uint64) (voucher Voucher, err error)
-	FindAll() (vouchers []Voucher, err error)
+	FindAll() (total int, vouchers []Voucher, err error)
 	FindByQuery(key string, value interface{}) (voucher Voucher, err error)
 	Insert(data VoucherDTO) (id uint64, err error)
 	Update(id int, data Voucher) (voucher Voucher, err error)
 	FindByParam(value interface{}) (vouchers []Voucher, err error)
+	GetTotal() (res interface{}, err error)
 }
 
 type VoucherService interface {
 	GetById(id uint64) (voucher Voucher, err error)
-	GetAll() (vouchers []Voucher, err error)
+	GetAll() (total int, vouchers []Voucher, err error)
 	Create(data VoucherDTO) (id uint64, err error)
 	Modify(id int, data Voucher) (voucher Voucher, err error)
 	GetByParam(value interface{}) (vouchers []Voucher, err error)
+	GetTotal() (res interface{}, err error)
 }

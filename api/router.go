@@ -63,6 +63,7 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	admin.PUT("/user/:id", controller.UserController.Modify)
 	admin.GET("/user/getall", controller.UserController.GetAll)
 	admin.GET("/user/:id", controller.UserController.GetByID)
+	admin.GET("/user/total", controller.UserController.GetTotal)
 	admin.DELETE("/user/:id", controller.UserController.Delete)
 	admin.GET("/voucher/getall", controller.VoucherController.GetAll)
 	admin.GET("/voucher/:id", controller.VoucherController.GetByID)
