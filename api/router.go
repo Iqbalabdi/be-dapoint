@@ -8,6 +8,7 @@ import (
 	"dapoint-api/api/v1/user"
 	userVoucherController "dapoint-api/api/v1/user_voucher"
 	voucherController "dapoint-api/api/v1/voucher"
+	xenditController "dapoint-api/api/xendit"
 	"github.com/labstack/echo/v4"
 )
 
@@ -19,6 +20,7 @@ type Controller struct {
 	VoucherController     *voucherController.Controller
 	UserVoucherController *userVoucherController.Controller
 	TransactionController *transactionController.Controller
+	XenditController      *xenditController.Controller
 }
 
 func RegistrationPath(e *echo.Echo, controller Controller) {
@@ -49,11 +51,6 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	voucher.PUT("/update/:id", controller.VoucherController.Modify)
 	voucher.GET("/getbyid/:id", controller.VoucherController.GetByID)
 	voucher.GET("/getbytype/:tipe", controller.VoucherController.GetByParams)
-	// TODO Delete vouchers
-
-	// TODO Create user transactions
-	//transaction := e.Group("/transaction")
-	// TODO GET All user transactions
 
 	// Admin
 	admin := e.Group("/admin")
@@ -75,4 +72,7 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	admin.GET("/user_transaction/getall", controller.TransactionController.GetAll)
 	admin.GET("/user_transaction/getbyuserid/:userid", controller.TransactionController.GetByUserID)
 	admin.GET("/user_transaction/getalluserpoint", controller.TransactionController.GetAllUserPoint)
+
+	payment := e.Group("/payment")
+	payment.POST("/ewallets", controller.XenditController.AcceptCallback)
 }

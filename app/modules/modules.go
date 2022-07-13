@@ -4,6 +4,7 @@ import (
 	"dapoint-api/api"
 	"dapoint-api/api/middleware"
 	contentV1Controller "dapoint-api/api/v1/content"
+	"dapoint-api/api/xendit"
 	"dapoint-api/config"
 	contentRepo "dapoint-api/repository/content"
 	contentService "dapoint-api/service/content"
@@ -52,6 +53,9 @@ func RegisterModules(dbCon *util.DatabaseConnection, config *config.AppConfig) a
 	transactionPermitService := transactionService.NewService(transactionPermitRepository, userPermitRepository)
 	transactionPermitController := transactionController.NewController(transactionPermitService)
 
+	// Xendit
+	xenditPermitController := xendit.NewController(xendit.XenditCallbackPayload{})
+
 	controllers := api.Controller{
 		ContentV1Controller:   contentV1PermitController,
 		AuthController:        authPermitController,
@@ -59,6 +63,7 @@ func RegisterModules(dbCon *util.DatabaseConnection, config *config.AppConfig) a
 		MiddlewareJwt:         middlewarePermitJwt,
 		VoucherController:     voucherPermitController,
 		TransactionController: transactionPermitController,
+		XenditController:      xenditPermitController,
 	}
 
 	return controllers
