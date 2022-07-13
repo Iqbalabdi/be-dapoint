@@ -36,7 +36,7 @@ func (s service) GetAll() (users []entities.Voucher, err error) {
 	return
 }
 
-func (s service) Create(data entities.Voucher) (id uint64, err error) {
+func (s service) Create(data entities.VoucherDTO) (id uint64, err error) {
 	//TODO implement me
 	err = s.validate.Struct(&data)
 	if err != nil {

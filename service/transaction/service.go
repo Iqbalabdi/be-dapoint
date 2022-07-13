@@ -64,6 +64,16 @@ func (s service) Create(data entities.Transaction) (transaction entities.Transac
 
 }
 
+func (s service) GetByQuery(key string, value interface{}) (transaction entities.Transaction, err error) {
+	//TODO implement me
+	transaction, err = s.repository.FindByQuery(key, value)
+	if err != nil {
+		return
+	}
+
+	return transaction, nil
+}
+
 func (s service) Modify(id int, data entities.Transaction) (transaction entities.Transaction, err error) {
 	//TODO implement me
 	panic("implement me")

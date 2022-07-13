@@ -39,6 +39,7 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	// TODO Delete users
 	user.DELETE("/:id", controller.UserController.Delete)
 	user.POST("/user_voucher", controller.UserVoucherController.Redeem)
+	user.GET("/user_transaction/:userid", controller.TransactionController.GetByUserID)
 
 	// TODO Create vouchers
 	voucher := e.Group("/vouchers")
@@ -60,14 +61,15 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	admin.POST("/login", controller.UserController.Login)
 	admin.PUT("/user_point/:id", controller.UserController.PointModify)
 	admin.PUT("/user/:id", controller.UserController.Modify)
-	admin.GET("/users", controller.UserController.GetAll)
-	admin.GET("/users/:id", controller.UserController.GetByID)
-	admin.DELETE("/users/:id", controller.UserController.Delete)
-	admin.GET("/vouchers", controller.VoucherController.GetAll)
-	admin.GET("/vouchers/:id", controller.VoucherController.GetByID)
-	admin.DELETE("/vouchers/:id", controller.VoucherController.Delete)
+	admin.GET("/user/getall", controller.UserController.GetAll)
+	admin.GET("/user/:id", controller.UserController.GetByID)
+	admin.DELETE("/user/:id", controller.UserController.Delete)
+	admin.GET("/voucher/getall", controller.VoucherController.GetAll)
+	admin.GET("/voucher/:id", controller.VoucherController.GetByID)
+	admin.POST("/voucher/create", controller.VoucherController.Create)
+	admin.DELETE("/voucher/:id", controller.VoucherController.Delete)
 	// transaction
 	admin.POST("/user_transaction/create", controller.TransactionController.Create)
 	admin.GET("/user_transaction/getall", controller.TransactionController.GetAll)
-
+	admin.GET("/user_transaction/getbyuserid/:userid", controller.TransactionController.GetByUserID)
 }

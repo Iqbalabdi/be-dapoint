@@ -44,7 +44,7 @@ func main() {
 
 	go func() {
 		var appAddress string
-		fmt.Println(config.App.Env)
+
 		if config.App.Env == "dev" {
 			appAddress = "127.0.0.1"
 		} else {

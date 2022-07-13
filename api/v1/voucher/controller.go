@@ -59,7 +59,7 @@ func (controller *Controller) GetByID(c echo.Context) error {
 
 func (controller *Controller) Create(c echo.Context) (err error) {
 
-	var newVoucher entities.Voucher
+	var newVoucher entities.VoucherDTO
 	err = c.Bind(&newVoucher)
 
 	voucher, err := controller.service.Create(newVoucher)

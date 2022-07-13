@@ -30,6 +30,7 @@ type TransactionRepository interface {
 type TransactionService interface {
 	GetById(id uint64) (transaction Transaction, err error)
 	GetAll() (transactions []Transaction, err error)
+	GetByQuery(key string, value interface{}) (transaction Transaction, err error)
 	Create(Transaction) (transaction Transaction, err error)
 	Modify(id int, data Transaction) (transaction Transaction, err error)
 	GetByParam(value interface{}) (transactions []Transaction, err error)

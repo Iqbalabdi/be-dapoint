@@ -127,3 +127,27 @@ func (controller *Controller) GetByParams(c echo.Context) (err error) {
 		Data:   listTransaction,
 	})
 }
+
+func (controller *Controller) GetByUserID(c echo.Context) (err error) {
+	params := c.Param("userid")
+	userID, err := strconv.Atoi(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.ApiResponse{
+			Status:  "fail",
+			Message: err.Error(),
+		})
+	}
+
+	res, err := controller.service.GetByQuery("user_id", uint64(userID))
+	if err != nil {
+		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
+			Status:  "fail",
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(v1.GetErrorStatus(err), response.ApiResponseSuccess{
+		Status: "success",
+		Data:   res,
+	})
+}

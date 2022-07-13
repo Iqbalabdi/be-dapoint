@@ -31,7 +31,13 @@ func (p PostgresRepository) FindAll() (transactions []entities.Transaction, err 
 
 func (p PostgresRepository) FindByQuery(key string, value interface{}) (transaction entities.Transaction, err error) {
 	//TODO implement me
-	panic("implement me")
+	err = p.db.Where(key+" = ?", value).Find(&transaction).Error
+	if err != nil {
+		err = dapoint_api.ErrNotFound
+		return
+	}
+
+	return transaction, nil
 }
 
 func (p PostgresRepository) Insert(data entities.Transaction) (transaction entities.Transaction, err error) {
