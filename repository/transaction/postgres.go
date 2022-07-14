@@ -75,7 +75,7 @@ func (p PostgresRepository) FindByAny(value interface{}) (res interface{}, err e
 func (p PostgresRepository) GetAllUserPoint(value interface{}) (res interface{}, err error) {
 
 	type UserPointByMonth struct {
-		TotalPoint int
+		TotalPoint uint64 `json:"total_point"`
 		Januari    uint64 `json:"januari"`
 		Februari   uint64 `json:"februari"`
 		Maret      uint64 `json:"maret"`
