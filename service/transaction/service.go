@@ -81,5 +81,9 @@ func (s service) Modify(id int, data entities.Transaction) (transaction entities
 
 func (s service) GetByAny(value interface{}) (res interface{}, err error) {
 	//TODO implement me
-	panic("implement me")
+	res, err = s.repository.FindByAny(value)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
 }

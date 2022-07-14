@@ -64,10 +64,69 @@ func (p PostgresRepository) Update(id int, data entities.Transaction) (transacti
 
 func (p PostgresRepository) FindByAny(value interface{}) (res interface{}, err error) {
 	//TODO implement me
-	panic("")
+	res, err = p.GetAllUserPoint(value)
+	if err != nil {
+		err = dapoint_api.ErrInternalServer
+		return nil, err
+	}
+	return res, nil
 }
 
 func (p PostgresRepository) GetAllUserPoint(value interface{}) (res interface{}, err error) {
-	//TODO implement me
-	panic("")
+
+	type UserPointByMonth struct {
+		TotalPoint int
+		Januari    uint64 `json:"januari"`
+		Februari   uint64 `json:"februari"`
+		Maret      uint64 `json:"maret"`
+		April      uint64 `json:"april"`
+		Mei        uint64 `json:"mei"`
+		Juni       uint64 `json:"juni"`
+		Juli       uint64 `json:"juli"`
+		Agustus    uint64 `json:"agustus"`
+		September  uint64 `json:"september"`
+		Oktober    uint64 `json:"oktober"`
+		November   uint64 `json:"november"`
+		Desember   uint64 `json:"desember"`
+	}
+
+	var userPoint UserPointByMonth
+	p.db.Raw("SELECT MontPoint.totalpoint FROM " +
+		"(SELECT MONTH(CAST(created_at AS DATE)) AS Dateonly, SUM(point_earn) AS totalpoint FROM transactions GROUP BY Dateonly) " +
+		"MontPoint WHERE MontPoint.Dateonly=1").Scan(&userPoint.Januari)
+	p.db.Raw("SELECT MontPoint.totalpoint FROM " +
+		"(SELECT MONTH(CAST(created_at AS DATE)) AS Dateonly, SUM(point_earn) AS totalpoint FROM transactions GROUP BY Dateonly) " +
+		"MontPoint WHERE MontPoint.Dateonly=2").Scan(&userPoint.Februari)
+	p.db.Raw("SELECT MontPoint.totalpoint FROM " +
+		"(SELECT MONTH(CAST(created_at AS DATE)) AS Dateonly, SUM(point_earn) AS totalpoint FROM transactions GROUP BY Dateonly) " +
+		"MontPoint WHERE MontPoint.Dateonly=3").Scan(&userPoint.Maret)
+	p.db.Raw("SELECT MontPoint.totalpoint FROM " +
+		"(SELECT MONTH(CAST(created_at AS DATE)) AS Dateonly, SUM(point_earn) AS totalpoint FROM transactions GROUP BY Dateonly) " +
+		"MontPoint WHERE MontPoint.Dateonly=4").Scan(&userPoint.April)
+	p.db.Raw("SELECT MontPoint.totalpoint FROM " +
+		"(SELECT MONTH(CAST(created_at AS DATE)) AS Dateonly, SUM(point_earn) AS totalpoint FROM transactions GROUP BY Dateonly) " +
+		"MontPoint WHERE MontPoint.Dateonly=5").Scan(&userPoint.Mei)
+	p.db.Raw("SELECT MontPoint.totalpoint FROM " +
+		"(SELECT MONTH(CAST(created_at AS DATE)) AS Dateonly, SUM(point_earn) AS totalpoint FROM transactions GROUP BY Dateonly) " +
+		"MontPoint WHERE MontPoint.Dateonly=6").Scan(&userPoint.Juni)
+	p.db.Raw("SELECT MontPoint.totalpoint FROM " +
+		"(SELECT MONTH(CAST(created_at AS DATE)) AS Dateonly, SUM(point_earn) AS totalpoint FROM transactions GROUP BY Dateonly) " +
+		"MontPoint WHERE MontPoint.Dateonly=7").Scan(&userPoint.Juli)
+	p.db.Raw("SELECT MontPoint.totalpoint FROM " +
+		"(SELECT MONTH(CAST(created_at AS DATE)) AS Dateonly, SUM(point_earn) AS totalpoint FROM transactions GROUP BY Dateonly) " +
+		"MontPoint WHERE MontPoint.Dateonly=8").Scan(&userPoint.Agustus)
+	p.db.Raw("SELECT MontPoint.totalpoint FROM " +
+		"(SELECT MONTH(CAST(created_at AS DATE)) AS Dateonly, SUM(point_earn) AS totalpoint FROM transactions GROUP BY Dateonly) " +
+		"MontPoint WHERE MontPoint.Dateonly=9").Scan(&userPoint.September)
+	p.db.Raw("SELECT MontPoint.totalpoint FROM " +
+		"(SELECT MONTH(CAST(created_at AS DATE)) AS Dateonly, SUM(point_earn) AS totalpoint FROM transactions GROUP BY Dateonly) " +
+		"MontPoint WHERE MontPoint.Dateonly=10").Scan(&userPoint.Oktober)
+	p.db.Raw("SELECT MontPoint.totalpoint FROM " +
+		"(SELECT MONTH(CAST(created_at AS DATE)) AS Dateonly, SUM(point_earn) AS totalpoint FROM transactions GROUP BY Dateonly) " +
+		"MontPoint WHERE MontPoint.Dateonly=11").Scan(&userPoint.November)
+	p.db.Raw("SELECT MontPoint.totalpoint FROM " +
+		"(SELECT MONTH(CAST(created_at AS DATE)) AS Dateonly, SUM(point_earn) AS totalpoint FROM transactions GROUP BY Dateonly) " +
+		"MontPoint WHERE MontPoint.Dateonly=12").Scan(&userPoint.Desember)
+	p.db.Raw("SELECT SUM(point_earn) FROM transactions").Scan(&userPoint.TotalPoint)
+	return userPoint, nil
 }

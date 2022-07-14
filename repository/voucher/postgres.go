@@ -53,8 +53,7 @@ func (repo PostgresRepository) Insert(data entities.VoucherDTO) (id uint64, err 
 	//var voucherDetail entities.VoucherDetail
 	//var newVoucher entities.Voucher
 	voucherDetail := entities.ObjVoucher(data.Name, data.Stock, data.HargaPoint)
-	repo.db.Raw("SELECT v.voucher_detail_id FROM voucher_details vd RIGHT JOIN vouchers v ON vd.id = v.voucher_detail_id WHERE vd.name = ?", data.TipeVoucher).Scan(&voucherDetail)
-
+	repo.db.Raw("SELECT id FROM voucher_details vd WHERE vd.name=?", data.TipeVoucher).Scan(&voucherDetail.VoucherDetailID)
 	err = repo.db.Create(&voucherDetail).Error
 	if err != nil {
 		err = dapoint_api.ErrInternalServer
