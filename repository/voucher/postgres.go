@@ -3,7 +3,6 @@ package voucher
 import (
 	"dapoint-api/entities"
 	dapoint_api "dapoint-api/error"
-	"fmt"
 	"gorm.io/gorm"
 )
 
@@ -78,7 +77,6 @@ func (repo PostgresRepository) Update(id int, data entities.Voucher) (res entiti
 func (repo PostgresRepository) FindByParam(value interface{}) (vouchers []entities.Voucher, err error) {
 
 	repo.db.Raw("SELECT * FROM vouchers WHERE voucher_detail_id IN (SELECT id FROM voucher_details WHERE name = ?)", value).Scan(&vouchers)
-	fmt.Println(vouchers)
 	return vouchers, nil
 }
 
