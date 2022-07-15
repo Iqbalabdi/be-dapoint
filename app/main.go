@@ -5,6 +5,7 @@ import (
 	"dapoint-api/app/modules"
 	"dapoint-api/config"
 	"dapoint-api/util"
+	"encoding/json"
 	"fmt"
 	"github.com/labstack/echo/v4/middleware"
 	"log"
@@ -39,6 +40,13 @@ func main() {
 	e.GET("/swagger/*", handleSwag)
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "dapoint API")
+	})
+	e.POST("/callback", func(c echo.Context) error {
+		var iface interface{}
+		c.Bind(&iface)
+		asByteJson, _ := json.Marshal(iface)
+		fmt.Println("masuk : ", string(asByteJson))
+		return c.JSON(200, "ok")
 	})
 	api.RegistrationPath(e, controllers)
 
