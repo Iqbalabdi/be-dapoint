@@ -46,19 +46,22 @@ func NewConnectionDatabase(config *config.AppConfig) *DatabaseConnection {
 
 func newPostgres(config *config.AppConfig) *gorm.DB {
 
-	dsn := fmt.Sprintf("host=%v user=%v password=%v port=%v dbname=%v sslmode=disable TimeZone=Asia/Jakarta",
-		config.Database.Address,
+	dbURL := fmt.Sprintf("host=%v user=%v password=%v port=%v dbname=%v",
+		config.Database.Host,
 		config.Database.Username,
 		config.Database.Password,
 		config.Database.Port,
-		config.Database.Name)
+		config.Database.Database)
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if config.Database.Connection != "" {
+		dbURL = config.Database.Connection
+	}
+	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
 
-	err = db.AutoMigrate(&entities.User{}, &entities.Transaction{}, &entities.Voucher{}, &entities.UserVoucher{})
+	err = db.AutoMigrate(&entities.User{}, &entities.Transaction{}, &entities.VoucherDetail{}, &entities.Voucher{}, &entities.UserVoucher{})
 	if err != nil {
 		return nil
 	}
@@ -72,10 +75,13 @@ func newMysql(config *config.AppConfig) *gorm.DB {
 	dbURL := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?parseTime=true",
 		config.Database.Username,
 		config.Database.Password,
-		config.Database.Address,
+		config.Database.Host,
 		config.Database.Port,
-		config.Database.Name)
+		config.Database.Database)
 	// dbURL := config.Database.DBURL
+	if config.Database.Connection != "" {
+		dbURL = config.Database.Connection
+	}
 	db, err := gorm.Open(mysql.Open(dbURL), &gorm.Config{})
 	if err != nil {
 		panic(err)

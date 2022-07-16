@@ -8,7 +8,10 @@ import (
 func RepositoryFactory(dbCon *util.DatabaseConnection) entities.TransactionRepository {
 	var transactionRepo entities.TransactionRepository
 
-	if dbCon.Driver == util.Mysql {
+	if dbCon.Driver == util.Postgres {
+		// existing tetep jalan
+		transactionRepo = NewPostgresRepository(dbCon.Postgres)
+	} else if dbCon.Driver == util.Mysql {
 		// existing tetep jalan
 		transactionRepo = NewPostgresRepository(dbCon.Mysql)
 	}
