@@ -52,7 +52,7 @@ func (repo PostgresRepository) Insert(data entities.VoucherDTO) (id uint64, err 
 	//TODO implement me
 	//var voucherDetail entities.VoucherDetail
 	//var newVoucher entities.Voucher
-	voucherDetail := entities.ObjVoucher(data.Name, data.Stock, data.HargaPoint)
+	voucherDetail := entities.ObjVoucher(data.Name, data.Stock, data.HargaPoint, data.Nominal)
 	repo.db.Raw("SELECT id FROM voucher_details vd WHERE vd.name=?", data.TipeVoucher).Scan(&voucherDetail.VoucherDetailID)
 	err = repo.db.Create(&voucherDetail).Error
 	if err != nil {
