@@ -11,6 +11,9 @@ func RepositoryFactory(dbCon *util.DatabaseConnection) entities.UserRepository {
 	if dbCon.Driver == util.Postgres {
 		// existing tetep jalan
 		userRepo = NewPostgresRepository(dbCon.Postgres)
+	} else if dbCon.Driver == util.Mysql {
+		// existing tetep jalan
+		userRepo = NewPostgresRepository(dbCon.Mysql)
 	}
 
 	return userRepo
