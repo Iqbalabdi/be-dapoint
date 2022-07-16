@@ -113,7 +113,7 @@ func (controller *Controller) Delete(c echo.Context) (err error) {
 func (controller *Controller) GetByParams(c echo.Context) (err error) {
 
 	param := c.Param("tipe")
-	listVoucher, err := controller.service.GetByParam(param)
+	listVoucher, err := controller.service.GetByType(param)
 	if err != nil {
 		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
 			Status:  "fail",
