@@ -10,6 +10,7 @@ type Voucher struct {
 	Name            string `json:"name" form:"name"`
 	Stock           uint   `json:"stock" form:"stock"`
 	HargaPoint      uint   `json:"harga_point" form:"harga_point"`
+	Nominal         uint   `json:"nominal" form:"nominal"`
 	VoucherDetailID uint   `json:"voucher_detail_id" form:"voucher_detail_id"`
 	UserVouchers    []UserVoucher
 }
@@ -18,14 +19,16 @@ type VoucherDTO struct {
 	Name        string `json:"name" form:"name"`
 	Stock       uint   `json:"stock" form:"stock"`
 	HargaPoint  uint   `json:"harga_point" form:"harga_point"`
+	Nominal     uint   `json:"nominal" form:"nominal"`
 	TipeVoucher string `json:"tipe_voucher" form:"tipe_voucher"`
 }
 
-func ObjVoucher(dataName string, dataStock uint, dataHargaPoint uint) (voucher *Voucher) {
+func ObjVoucher(dataName string, dataStock uint, dataHargaPoint uint, dataNominal uint) (voucher *Voucher) {
 	return &Voucher{
 		Name:       dataName,
 		Stock:      dataStock,
 		HargaPoint: dataHargaPoint,
+		Nominal:    dataNominal,
 	}
 }
 
