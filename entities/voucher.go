@@ -38,8 +38,9 @@ type VoucherRepository interface {
 	FindByQuery(key string, value interface{}) (voucher Voucher, err error)
 	Insert(data VoucherDTO) (id uint64, err error)
 	Update(id int, data Voucher) (voucher Voucher, err error)
-	FindByParam(value interface{}) (vouchers []Voucher, err error)
+	FindByType(value interface{}) (vouchers []Voucher, err error)
 	GetTotal() (res interface{}, err error)
+	FindNominalByName(value interface{}) (res float64, err error)
 }
 
 type VoucherService interface {
@@ -47,6 +48,6 @@ type VoucherService interface {
 	GetAll() (total int, vouchers []Voucher, err error)
 	Create(data VoucherDTO) (id uint64, err error)
 	Modify(id int, data Voucher) (voucher Voucher, err error)
-	GetByParam(value interface{}) (vouchers []Voucher, err error)
+	GetByType(value interface{}) (vouchers []Voucher, err error)
 	GetTotal() (res interface{}, err error)
 }

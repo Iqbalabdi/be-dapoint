@@ -74,7 +74,7 @@ func (repo PostgresRepository) Update(id int, data entities.Voucher) (res entiti
 	return voucher, err
 }
 
-func (repo PostgresRepository) FindByParam(value interface{}) (vouchers []entities.Voucher, err error) {
+func (repo PostgresRepository) FindByType(value interface{}) (vouchers []entities.Voucher, err error) {
 
 	repo.db.Raw("SELECT * FROM vouchers WHERE voucher_detail_id IN (SELECT id FROM voucher_details WHERE name = ?)", value).Scan(&vouchers)
 	return vouchers, nil
@@ -88,4 +88,13 @@ func (repo PostgresRepository) GetTotal() (res interface{}, err error) {
 	}
 
 	return total, nil
+}
+
+func (repo PostgresRepository) FindNominalByName(value interface{}) (res float64, err error) {
+	//TODO implement me
+	if err = repo.db.Raw("SELECT nominal FROM vouchers WHERE NAME = ?", value).Scan(&res).Error; err != nil {
+		return
+	}
+
+	return res, nil
 }

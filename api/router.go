@@ -76,4 +76,5 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 
 	payment := e.Group("/payment")
 	payment.POST("/ewallets", controller.XenditController.AcceptCallback)
+	payment.POST("/ewallets/charges/:name", controller.XenditController.CreateCharge)
 }

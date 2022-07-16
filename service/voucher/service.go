@@ -65,9 +65,9 @@ func (s service) Modify(id int, data entities.Voucher) (user entities.Voucher, e
 	return res, nil
 }
 
-func (s service) GetByParam(value interface{}) (vouchers []entities.Voucher, err error) {
+func (s service) GetByType(value interface{}) (vouchers []entities.Voucher, err error) {
 	//TODO implement me
-	res, err := s.repository.FindByParam(value)
+	res, err := s.repository.FindByType(value)
 	if err != nil {
 		return
 	}
