@@ -3,6 +3,7 @@ package user
 import (
 	"dapoint-api/entities"
 	dapoint_api "dapoint-api/error"
+	"dapoint-api/util"
 	"github.com/go-playground/validator/v10"
 )
 
@@ -38,6 +39,8 @@ func (s service) GetAll() (total int, users []entities.User, err error) {
 
 func (s service) Create(data entities.User) (res entities.User, err error) {
 	//TODO implement me
+
+	data.Password, _ = util.HashPassword(data.Password)
 	err = s.validate.Struct(&data)
 	if err != nil {
 		err = dapoint_api.ErrBadRequest
@@ -72,7 +75,7 @@ func (s service) Login(data entities.UserLogin) (user entities.User, val bool, e
 	}
 
 	res, err := s.repository.FindByQuery("email", data.Email)
-	if err != nil || res.Password != data.Password {
+	if err != nil || util.CheckPasswordHash(data.Password, res.Password) != true {
 		return res, false, err
 	}
 
