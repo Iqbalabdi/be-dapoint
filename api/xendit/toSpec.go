@@ -6,3 +6,8 @@ type XenditCallbackPayload struct {
 	Created    string      `json:"created"`
 	Data       interface{} `json:"data"`
 }
+
+type XenditGetVoucher struct {
+	ID      int
+	Nominal float64
+}

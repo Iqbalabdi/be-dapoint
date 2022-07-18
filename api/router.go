@@ -4,23 +4,25 @@ import (
 	"dapoint-api/api/middleware"
 	auth "dapoint-api/api/v1/auth"
 	contentV1 "dapoint-api/api/v1/content"
+	redeemVoucherController "dapoint-api/api/v1/redeem_voucher"
+	userVoucherController "dapoint-api/api/v1/redeem_voucher"
 	transactionController "dapoint-api/api/v1/transaction"
 	"dapoint-api/api/v1/user"
-	userVoucherController "dapoint-api/api/v1/user_voucher"
 	voucherController "dapoint-api/api/v1/voucher"
 	xenditController "dapoint-api/api/xendit"
 	"github.com/labstack/echo/v4"
 )
 
 type Controller struct {
-	ContentV1Controller   *contentV1.Controller
-	UserController        *user.Controller
-	AuthController        *auth.Controller
-	MiddlewareJwt         middleware.JWTService
-	VoucherController     *voucherController.Controller
-	UserVoucherController *userVoucherController.Controller
-	TransactionController *transactionController.Controller
-	XenditController      *xenditController.Controller
+	ContentV1Controller     *contentV1.Controller
+	UserController          *user.Controller
+	AuthController          *auth.Controller
+	MiddlewareJwt           middleware.JWTService
+	VoucherController       *voucherController.Controller
+	UserVoucherController   *userVoucherController.Controller
+	TransactionController   *transactionController.Controller
+	XenditController        *xenditController.Controller
+	RedeemVoucherController *redeemVoucherController.Controller
 }
 
 func RegistrationPath(e *echo.Echo, controller Controller) {
@@ -40,7 +42,7 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	user.PUT("/:id", controller.UserController.Modify)       // update users
 	// TODO Delete users
 	user.DELETE("/:id", controller.UserController.Delete)
-	user.POST("/user_voucher", controller.UserVoucherController.Redeem)
+	//user.POST("/redeem_voucher", controller.UserVoucherController.Redeem)
 	user.GET("/user_transaction/:userid", controller.TransactionController.GetByUserID)
 
 	// TODO Create vouchers
@@ -75,6 +77,6 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	admin.GET("/user_transaction/getalluserpoint", controller.TransactionController.GetAllUserPoint)
 
 	payment := e.Group("/payment")
-	payment.POST("/ewallets", controller.XenditController.AcceptCallback)
+	payment.POST("/ewallets/callback", controller.XenditController.AcceptCallback, controller.MiddlewareJwt.UserJwtMiddleware())
 	payment.POST("/ewallets/charges/:name", controller.XenditController.CreateCharge)
 }

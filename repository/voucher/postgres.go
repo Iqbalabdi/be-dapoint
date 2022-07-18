@@ -26,7 +26,7 @@ func (repo PostgresRepository) FindById(id uint64) (voucher entities.Voucher, er
 
 func (repo PostgresRepository) FindAll() (total int, vouchers []entities.Voucher, err error) {
 	//TODO implement me
-	if err = repo.db.Raw("SELECT COUNT(*) FROM users").Scan(&total).Error; err != nil {
+	if err = repo.db.Raw("SELECT COUNT(*) FROM vouchers").Scan(&total).Error; err != nil {
 		return total, nil, err
 	}
 
@@ -68,7 +68,7 @@ func (repo PostgresRepository) Update(id int, data entities.Voucher) (res entiti
 	repo.db.First(&voucher, "id = ?", id)
 
 	//repo.db.Raw("UPDATE vouchers SET "+key+" = ? "+"WHERE id = ?", value, id).Scan(&vouchers)
-	if err = repo.db.Model(&voucher).Updates(map[string]interface{}{"name": data.Name, "stock": data.Stock, "harga_point": data.HargaPoint}).Error; err != nil {
+	if err = repo.db.Model(&voucher).Updates(map[string]interface{}{"name": data.Name, "stock": data.Stock, "harga_point": data.HargaPoint, "nominal": data.Nominal}).Error; err != nil {
 		return voucher, err
 	}
 	return voucher, err
@@ -83,16 +83,22 @@ func (repo PostgresRepository) FindByType(value interface{}) (vouchers []entitie
 func (repo PostgresRepository) GetTotal() (res interface{}, err error) {
 	//TODO implement me
 	var total uint
-	if err = repo.db.Raw("SELECT COUNT(*) FROM users").Scan(&total).Error; err != nil {
+	if err = repo.db.Raw("SELECT COUNT(*) FROM vouchers").Scan(&total).Error; err != nil {
 		return nil, err
 	}
 
 	return total, nil
 }
 
-func (repo PostgresRepository) FindNominalByName(value interface{}) (res float64, err error) {
+func (repo PostgresRepository) FindNominalByName(value interface{}) (res entities.Voucher, err error) {
 	//TODO implement me
-	if err = repo.db.Raw("SELECT nominal FROM vouchers WHERE NAME = ?", value).Scan(&res).Error; err != nil {
+	//type Result struct {
+	//	ID      int
+	//	Nominal float64
+	//}
+	//
+	//var result Result
+	if err = repo.db.Raw("SELECT id, nominal FROM vouchers WHERE NAME = ?", value).Scan(&res).Error; err != nil {
 		return
 	}
 
