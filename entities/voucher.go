@@ -12,7 +12,7 @@ type Voucher struct {
 	HargaPoint      uint   `json:"harga_point" form:"harga_point"`
 	Nominal         uint   `json:"nominal" form:"nominal"`
 	VoucherDetailID uint   `json:"voucher_detail_id" form:"voucher_detail_id"`
-	UserVouchers    []RedeemVoucher
+	RedeemVouchers  []RedeemVoucher
 }
 
 type VoucherDTO struct {
