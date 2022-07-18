@@ -12,7 +12,7 @@ type Voucher struct {
 	HargaPoint      uint   `json:"harga_point" form:"harga_point"`
 	Nominal         uint   `json:"nominal" form:"nominal"`
 	VoucherDetailID uint   `json:"voucher_detail_id" form:"voucher_detail_id"`
-	UserVouchers    []UserVoucher
+	UserVouchers    []RedeemVoucher
 }
 
 type VoucherDTO struct {
@@ -40,7 +40,7 @@ type VoucherRepository interface {
 	Update(id int, data Voucher) (voucher Voucher, err error)
 	FindByType(value interface{}) (vouchers []Voucher, err error)
 	GetTotal() (res interface{}, err error)
-	FindNominalByName(value interface{}) (res float64, err error)
+	FindNominalByName(value interface{}) (res Voucher, err error)
 }
 
 type VoucherService interface {

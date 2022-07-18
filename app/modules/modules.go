@@ -23,6 +23,10 @@ import (
 	transactionRepo "dapoint-api/repository/transaction"
 	transactionService "dapoint-api/service/transaction"
 
+	redeemController "dapoint-api/api/v1/redeem_voucher"
+	redeemRepo "dapoint-api/repository/redeem_voucher"
+	redeemService "dapoint-api/service/redeem_voucher"
+
 	xenditController "dapoint-api/api/xendit"
 	xenditPayload "dapoint-api/api/xendit"
 	xenditService "dapoint-api/service/xendit"
@@ -56,18 +60,23 @@ func RegisterModules(dbCon *util.DatabaseConnection, config *config.AppConfig) a
 	transactionPermitService := transactionService.NewService(transactionPermitRepository, userPermitRepository)
 	transactionPermitController := transactionController.NewController(transactionPermitService)
 
+	redeemPermitRepository := redeemRepo.RepositoryFactory(dbCon)
+	redeemPermitService := redeemService.NewService(redeemPermitRepository)
+	redeemPermitController := redeemController.NewController(redeemPermitService)
+
 	// Xendit
-	xenditPermitService := xenditService.NewService(voucherPermitRepository)
+	xenditPermitService := xenditService.NewService(voucherPermitRepository, redeemPermitRepository, userPermitRepository)
 	xenditPermitController := xenditController.NewController(xenditPayload.XenditCallbackPayload{}, xenditPermitService)
 
 	controllers := api.Controller{
-		ContentV1Controller:   contentV1PermitController,
-		AuthController:        authPermitController,
-		UserController:        userPermitController,
-		MiddlewareJwt:         middlewarePermitJwt,
-		VoucherController:     voucherPermitController,
-		TransactionController: transactionPermitController,
-		XenditController:      xenditPermitController,
+		ContentV1Controller:     contentV1PermitController,
+		AuthController:          authPermitController,
+		UserController:          userPermitController,
+		MiddlewareJwt:           middlewarePermitJwt,
+		VoucherController:       voucherPermitController,
+		TransactionController:   transactionPermitController,
+		XenditController:        xenditPermitController,
+		RedeemVoucherController: redeemPermitController,
 	}
 
 	return controllers

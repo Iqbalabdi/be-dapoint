@@ -19,7 +19,7 @@ type User struct {
 	Role         string `gorm:"default:user"`
 	TotalPoint   uint64 `json:"total_point" form:"total_point" gorm:"default:0"`
 	Transactions []Transaction
-	UserVouchers []UserVoucher
+	UserVouchers []RedeemVoucher
 }
 
 func ObjUser(dataName string, dataEmail, dataPassword string) (user *User) {

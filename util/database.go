@@ -61,7 +61,7 @@ func newPostgres(config *config.AppConfig) *gorm.DB {
 		panic(err)
 	}
 
-	err = db.AutoMigrate(&entities.User{}, &entities.Transaction{}, &entities.VoucherDetail{}, &entities.Voucher{}, &entities.UserVoucher{})
+	err = db.AutoMigrate(&entities.User{}, &entities.Transaction{}, &entities.VoucherDetail{}, &entities.Voucher{}, &entities.RedeemVoucher{})
 	if err != nil {
 		return nil
 	}
@@ -87,7 +87,7 @@ func newMysql(config *config.AppConfig) *gorm.DB {
 		panic(err)
 	}
 
-	err = db.AutoMigrate(&entities.User{}, &entities.Transaction{}, &entities.VoucherDetail{}, &entities.Voucher{}, &entities.UserVoucher{})
+	err = db.AutoMigrate(&entities.User{}, &entities.Transaction{}, &entities.VoucherDetail{}, &entities.Voucher{}, &entities.RedeemVoucher{})
 	if err != nil {
 		return nil
 	}
