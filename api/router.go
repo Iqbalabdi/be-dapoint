@@ -46,6 +46,7 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	user.GET("/user_transaction/:userid", controller.TransactionController.GetByUserID)
 
 	user.GET("/voucher/getall", controller.VoucherController.GetAll)
+	user.GET("/voucher/:id", controller.VoucherController.GetByID)
 
 	// TODO Create vouchers
 	voucher := e.Group("/vouchers")
