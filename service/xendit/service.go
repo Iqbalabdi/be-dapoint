@@ -5,6 +5,9 @@ import (
 	"encoding/json"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
+	"github.com/xendit/xendit-go"
+	"github.com/xendit/xendit-go/ewallet"
+	"log"
 )
 
 var voucherID uint64
@@ -34,27 +37,27 @@ func (s service) CreateCharge(c echo.Context, param string) (interface{}, error)
 		return nil, err
 	}
 
-	//xendit.Opt.SecretKey = "xnd_development_G1TruBndRrzJWNiL9ybYCdqy6TN0FrFr5FFAZIS8KmwG909640zJf5Z0KlPPvB"
-	//
-	//data := ewallet.CreateEWalletChargeParams{
-	//	ReferenceID:    "test-reference-id",
-	//	Currency:       "IDR",
-	//	Amount:         float64(res.Nominal),
-	//	CheckoutMethod: "ONE_TIME_PAYMENT",
-	//	ChannelCode:    "ID_DANA",
-	//	ChannelProperties: map[string]string{
-	//		"success_redirect_url": "https://redirect.me/payment",
-	//	},
-	//	Metadata: map[string]interface{}{
-	//		"branch_code": "tree_branch",
-	//	},
-	//}
-	//
-	//charge, chargeErr := ewallet.CreateEWalletCharge(&data)
-	//if chargeErr != nil {
-	//	log.Fatal(chargeErr)
-	//}
-	return "ok", nil
+	xendit.Opt.SecretKey = "xnd_development_G1TruBndRrzJWNiL9ybYCdqy6TN0FrFr5FFAZIS8KmwG909640zJf5Z0KlPPvB"
+
+	data := ewallet.CreateEWalletChargeParams{
+		ReferenceID:    "test-reference-id",
+		Currency:       "IDR",
+		Amount:         float64(res.Nominal),
+		CheckoutMethod: "ONE_TIME_PAYMENT",
+		ChannelCode:    "ID_DANA",
+		ChannelProperties: map[string]string{
+			"success_redirect_url": "https://redirect.me/payment",
+		},
+		Metadata: map[string]interface{}{
+			"branch_code": "tree_branch",
+		},
+	}
+
+	charge, chargeErr := ewallet.CreateEWalletCharge(&data)
+	if chargeErr != nil {
+		log.Fatal(chargeErr)
+	}
+	return charge, nil
 }
 
 func (s service) PaymentStatusCallback(userID uint64, param string) (res interface{}, err error) {
