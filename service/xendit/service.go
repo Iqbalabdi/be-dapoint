@@ -3,14 +3,15 @@ package xendit
 import (
 	"dapoint-api/entities"
 	"encoding/json"
+	"fmt"
 	"github.com/go-playground/validator/v10"
-	"github.com/labstack/echo/v4"
 	"github.com/xendit/xendit-go"
 	"github.com/xendit/xendit-go/ewallet"
 	"log"
 )
 
 var voucherID uint64
+var user_id_global uint64
 
 type service struct {
 	voucherRepo entities.VoucherRepository
@@ -28,10 +29,12 @@ func NewService(repoVoucher entities.VoucherRepository, redeemVoucherRepo entiti
 	}
 }
 
-func (s service) CreateCharge(c echo.Context, param string) (interface{}, error) {
+func (s service) CreateCharge(id uint64, param string) (interface{}, error) {
 	//TODO implement me
 	res, err := s.voucherRepo.FindNominalByName(param)
 	voucherID = res.ID
+	user_id_global = id
+	fmt.Println(user_id_global)
 	//fmt.Println(res.ID, res.Nominal)
 	if err != nil {
 		return nil, err
@@ -60,10 +63,13 @@ func (s service) CreateCharge(c echo.Context, param string) (interface{}, error)
 	return charge, nil
 }
 
-func (s service) PaymentStatusCallback(userID uint64, param string) (res interface{}, err error) {
+func (s service) PaymentStatusCallback(param string) (res interface{}, err error) {
 	//TODO implement me
 	var data CallbackStatusData
 	json.Unmarshal([]byte(param), &data)
+	fmt.Println(data)
+	fmt.Println(voucherID)
+	fmt.Println(user_id_global)
 	if data.Data.Status == "SUCCEEDED" {
 
 		//get voucher point
@@ -71,9 +77,9 @@ func (s service) PaymentStatusCallback(userID uint64, param string) (res interfa
 		pointCharge := voucher.HargaPoint
 
 		// update user TotalPoint
-		user, err := s.userRepo.FindById(userID)
+		user, err := s.userRepo.FindById(user_id_global)
 		user.TotalPoint = user.TotalPoint - uint64(pointCharge)
-		_, err = s.userRepo.PointUpdate(int(userID), user)
+		_, err = s.userRepo.PointUpdate(int(user_id_global), user)
 		if err != nil {
 			return nil, err
 		}
@@ -83,7 +89,7 @@ func (s service) PaymentStatusCallback(userID uint64, param string) (res interfa
 		_, err = s.voucherRepo.Update(int(voucherID), voucher)
 
 		// insert redeem voucher
-		res, err = s.redeemRepo.Insert(voucherID, int(userID))
+		res, err = s.redeemRepo.Insert(voucherID, int(user_id_global))
 		if err != nil {
 			return nil, err
 		}
