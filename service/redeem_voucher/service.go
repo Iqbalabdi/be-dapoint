@@ -10,14 +10,27 @@ type service struct {
 	validate   *validator.Validate
 }
 
-func NewService(repository entities.RedeemVoucherRepository) entities.RedeemVoucherRepository {
+func NewService(repository entities.RedeemVoucherRepository) entities.RedeemVoucherService {
 	return &service{
 		repository: repository,
 		validate:   validator.New(),
 	}
 }
 
-func (s service) Insert(voucherID uint64, userID int) (res entities.RedeemVoucher, err error) {
+func (s service) GetAll() (total int, redeem []entities.RedeemVoucher, err error) {
 	//TODO implement me
-	panic("implement me")
+	total, redeem, err = s.repository.FindAll()
+	if err != nil {
+		return total, nil, err
+	}
+	return total, redeem, nil
+}
+
+func (s service) GetById(id uint64) (res interface{}, err error) {
+	//TODO implement me
+	res, err = s.repository.FindById(id)
+	if err != nil {
+		return
+	}
+	return res, nil
 }
