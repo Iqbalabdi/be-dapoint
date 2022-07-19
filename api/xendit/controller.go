@@ -30,10 +30,10 @@ func (controller *Controller) AcceptCallback(c echo.Context) error {
 	err := c.Bind(&iface)
 	asByteJson, _ := json.Marshal(iface)
 	//fmt.Println("masuk : ", string(asByteJson))
-	userID := c.Get("userID")
-
-	userIdconv, _ := strconv.Atoi(userID.(string))
-	res, err := controller.service.PaymentStatusCallback(uint64(userIdconv), string(asByteJson))
+	//userID := c.Get("userID")
+	//fmt.Println("anjing", userID)
+	//userIdconv, _ := strconv.Atoi(userID.(string))
+	_, err = controller.service.PaymentStatusCallback(string(asByteJson))
 	if err != nil {
 		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
 			Status:  "fail",
@@ -41,16 +41,18 @@ func (controller *Controller) AcceptCallback(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(v1.GetErrorStatus(err), response.ApiResponseSuccess{
-		Status: "success",
-		Data:   res,
+	return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
+		Status:  "success",
+		Message: "ok",
 	})
 }
 
 func (controller *Controller) CreateCharge(c echo.Context) error {
 
 	param := c.Param("name")
-	res, err := controller.service.CreateCharge(c, param)
+	userID := c.Get("userID")
+	userIdconv, _ := strconv.Atoi(userID.(string))
+	res, err := controller.service.CreateCharge(uint64(userIdconv), param)
 	if err != nil {
 		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
 			Status:  "fail",

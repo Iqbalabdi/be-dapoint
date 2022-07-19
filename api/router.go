@@ -83,6 +83,6 @@ func RegistrationPath(e *echo.Echo, controller Controller) {
 	admin.GET("/user_transaction/getalluserpoint", controller.TransactionController.GetAllUserPoint)
 
 	payment := e.Group("/payment")
-	payment.POST("/ewallets/callback", controller.XenditController.AcceptCallback, controller.MiddlewareJwt.UserJwtMiddleware())
-	payment.POST("/ewallets/charges/:name", controller.XenditController.CreateCharge)
+	payment.POST("/ewallets/callback", controller.XenditController.AcceptCallback)
+	payment.POST("/ewallets/charges/:name", controller.XenditController.CreateCharge, controller.MiddlewareJwt.UserJwtMiddleware())
 }
