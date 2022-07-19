@@ -84,3 +84,12 @@ func (s service) GetTotal() (res interface{}, err error) {
 
 	return res, nil
 }
+
+func (s service) DeleteVoucher(i int) (err error) {
+	//TODO implement me
+	err = s.repository.DeleteVoucher(i)
+	if err != nil {
+		return err
+	}
+	return
+}

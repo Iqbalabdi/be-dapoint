@@ -104,3 +104,13 @@ func (repo PostgresRepository) FindNominalByName(value interface{}) (res entitie
 
 	return res, nil
 }
+
+func (repo PostgresRepository) DeleteVoucher(i int) (err error) {
+	var voucher entities.Voucher
+
+	if err := repo.db.Delete(&voucher, i).Error; err != nil {
+		return err
+	}
+
+	return
+}
