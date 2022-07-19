@@ -46,7 +46,7 @@ func (controller *Controller) GetByID(c echo.Context) error {
 	}
 	voucher, err := controller.service.GetById(uint64(id))
 	if err != nil {
-		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
+		return c.JSON(http.StatusNotFound, response.ApiResponse{
 			Status:  "fail",
 			Message: err.Error(),
 		})

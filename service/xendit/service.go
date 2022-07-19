@@ -67,9 +67,6 @@ func (s service) PaymentStatusCallback(param string) (res interface{}, err error
 	//TODO implement me
 	var data CallbackStatusData
 	json.Unmarshal([]byte(param), &data)
-	fmt.Println(data)
-	fmt.Println(voucherID)
-	fmt.Println(user_id_global)
 	if data.Data.Status == "SUCCEEDED" {
 
 		//get voucher point
