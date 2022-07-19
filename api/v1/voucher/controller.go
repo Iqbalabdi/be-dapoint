@@ -107,7 +107,21 @@ func (controller *Controller) Modify(c echo.Context) (err error) {
 }
 
 func (controller *Controller) Delete(c echo.Context) (err error) {
-	panic("")
+
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	err = controller.service.DeleteVoucher(id)
+	if err != nil {
+		return c.JSON(v1.GetErrorStatus(err), response.ApiResponse{
+			Status:  "error",
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, response.ApiResponse{
+		Status:  "success",
+		Message: nil,
+	})
 }
 
 func (controller *Controller) GetByParams(c echo.Context) (err error) {

@@ -41,6 +41,7 @@ type VoucherRepository interface {
 	FindByType(value interface{}) (vouchers []Voucher, err error)
 	GetTotal() (res interface{}, err error)
 	FindNominalByName(value interface{}) (res Voucher, err error)
+	DeleteVoucher(int) (err error)
 }
 
 type VoucherService interface {
@@ -50,4 +51,5 @@ type VoucherService interface {
 	Modify(id int, data Voucher) (voucher Voucher, err error)
 	GetByType(value interface{}) (vouchers []Voucher, err error)
 	GetTotal() (res interface{}, err error)
+	DeleteVoucher(int) (err error)
 }
