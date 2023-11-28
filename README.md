@@ -194,3 +194,21 @@ response(200): {
     ]
 }
 ```
+
+## 15. Redeem Voucher
+```
+method: POST
+endpoint: "user/redeem_voucher/"
+header: {
+    Authorization Token
+}
+request form-data: {
+      {entities.RedeemVoucher}
+}
+response(200): {
+    "message":"Success",
+    data: [
+        {entities.Voucher}
+    ]
+}
+```
