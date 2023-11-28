@@ -12,7 +12,8 @@ Repository for dapoint app API
 
 ## Reference
 This repository using clean architecture known as hexagonal architecture  
-![image](https://github.com/Iqbalabdi/be-dapoint/assets/75016595/40786b85-7711-42b2-a918-7f2b43a33144)
+![image](https://github.com/Iqbalabdi/be-dapoint/assets/75016595/f09a1016-3f6c-4c8f-aa82-0f628c1f59c6)
+
 
 Credits:  
 https://github.com/bxcodec/go-clean-arch
