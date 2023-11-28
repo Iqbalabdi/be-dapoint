@@ -14,9 +14,12 @@ Repository for dapoint app API
 This repository using clean architecture known as hexagonal architecture  
 ![image](https://github.com/Iqbalabdi/be-dapoint/assets/75016595/f09a1016-3f6c-4c8f-aa82-0f628c1f59c6)
 
-
 Credits:  
 https://github.com/bxcodec/go-clean-arch
+
+## ERD
+![image](https://github.com/Iqbalabdi/be-dapoint/assets/75016595/dffbc2f7-115d-4fcb-b231-5fcf09afa7ff)
+
 
 # List API Dapoint
 ## 1. Register user
@@ -209,7 +212,37 @@ request form-data: {
 response(200): {
     "message":"Success",
     data: [
-        {entities.Voucher}
+        {entities.RedeemVoucher}
+    ]
+}
+```
+
+## 16. Transaction Create
+```
+method: POST
+endpoint: "/admin/user_transaction/create"
+header: {
+    Authorization Token
+}
+request form-data: {
+      {entities.Transactions}
+}
+response(200): {
+    "message":"Success",
+    data: [
+        {entities.Transactions}
+    ]
+}
+```
+
+## 17. Get All Transaction
+```
+method: GET
+endpoint: "/admin/user_transaction/getall"
+response(200): {
+    "message":"Success",
+    data: [
+        {entities.Transactions}
     ]
 }
 ```
